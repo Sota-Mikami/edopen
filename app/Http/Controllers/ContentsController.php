@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use App\Http\Requests\ContentRequest;
+
 
 class ContentsController extends Controller
 {
@@ -23,7 +27,9 @@ class ContentsController extends Controller
      */
     public function create()
     {
-        //
+        // $sample = "sample";
+        // Log::debug($sample);
+        return view('content.create');
     }
 
     /**
@@ -32,9 +38,11 @@ class ContentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ContentRequest $request)
     {
-        //
+        Log::debug('test');
+        Log::debug($request->all());
+        return redirect('/contents/create');
     }
 
     /**

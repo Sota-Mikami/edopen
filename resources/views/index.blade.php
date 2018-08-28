@@ -48,7 +48,7 @@
 <p><a href="user/edit">ユーザー情報を編集</a></p>
 
 {{-- 教材アップロードボタン --}}
-<p><a href="#">教材をアップロード</a></p>
+<p><a href="contents/create">教材をアップロード</a></p>
 
 
 @endsection

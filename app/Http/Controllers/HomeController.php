@@ -31,7 +31,7 @@ class HomeController extends Controller
     {
         //ユーザー情報を取得
         $user = Auth::user();
-        // info($user);
+        info($user);
         return view('index',['user'=>$user]);
     }
 }

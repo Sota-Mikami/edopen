@@ -8,7 +8,7 @@ use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Log;
 
 class UsersController extends Controller
 {
@@ -86,6 +86,7 @@ class UsersController extends Controller
         //（疑問）User_idを取得する場合は、『編集フォーム』から取得した方が良いのか、それとも、ログインユーザーのIDをそのまま取得した方がいいのか。
         // info('ID : '.Auth::user()->id);
         $user = User::find(Auth::user()->id);
+        // Log::debug($user);
         // info('ユーザー情報 : '.$user);
 
         return view('user.edit',['user'=>$user]);
