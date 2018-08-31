@@ -31,16 +31,12 @@ class ContentsController extends Controller
      */
     public function create()
     {
-        // $sample = "sample";
-        // Log::debug($sample);
         return view('content.create');
     }
 
     public function confirm(ContentRequest $request){
 
         Log::debug($request->file('files'));
-
-
 
         $i = 0 ;
         foreach ($request->file('files') as $index => $e) {
@@ -69,35 +65,9 @@ class ContentsController extends Controller
         $data_all = session()->all();
         Log::debug($data_all);
 
+        // Log::debug(storage_path());
+
         return view('content.confirm');
-
-        // $test = $request->file('file')->guessExtension();
-        // $thum_name = uniqid("THUM_") . "." . $request->file('img1')->guessExtension();
-        // Log::debug($test);
-
-        // TMPファイル名
-        // $request->file('thum')->move(storage_path() . "/img/tmp", $thum_name);
-        // $thum = "/img/tmp/".$thum_name;
-        //
-        // $hash = array(
-        // 'thum' => $thum,
-        // 'username' => $username,
-        // );
-        //
-        // return view('uploader.confirm')->with($hash);
-
-
-
-
-        // Log::debug($request->all());
-        // $content = $request->all();
-        // $test = $request->file('img1')->store('content_images','public');
-        // Log::debug($test);
-
-
-
-        // 実際のstoreメソッドでは、配列の内容（要素の数）に応じて、
-        // それぞれのカラム（img1,img2,img3,img4）に値をセットし、保存する
 
     }
 
@@ -122,19 +92,37 @@ class ContentsController extends Controller
         $content_info->save();
 
 
-        // 該当するimgカラムにそれぞれセット
+        // content_imgsテーブルの該当するimgカラムにそれぞれセット
+        // （最大4つまで画像保存可  : img1 ~ img4）
         foreach($request->images as $index => $img){
             $index++;
-            $column = 'img'.$index;
-            $params[$column] =$img['img'];
+            $column = 'img'.$index;//カラム名
+            //ファイル名を取得する
+            $file_name = str_replace('content_images/temp/','',$img['img']);
+            $params[$column] =$file_name;
+
+            //確認画面時に一時保存したファイルをユーザー別ディレクトリへ移動
+            if (!file_exists(storage_path() . "/app/public/content_images/" . $user_id)) {
+                mkdir(storage_path() . "/app/public/content_images/" . $user_id, 0777);
+            }
+
+            // // 一時保存から本番の格納場所へ移動
+            rename(storage_path() . "/app/public/content_images/temp/".$file_name , storage_path() . "/app/public/content_images/" . $user_id .'/'.$file_name );
         }
 
+
+
+        //contentテーブルに関連するcontent_imgsテーブルにimgカラムをインサート
         $content_info->content_imgs()->create($params);
+
 
         Log::debug($params);
 
-        //確認画面時に一時保存したファイルを
-        //ユーザー別ディレクトリへ移動
+
+        // Log::debug(publish_path());
+
+
+
 
 
 
@@ -145,6 +133,9 @@ class ContentsController extends Controller
 
 
         // return redirect('/contents/create');
+
+        //もし確認画面でキャンセルの場合、
+        //tempディレクトリに保存されている画像を削除する
     }
 
     /**
