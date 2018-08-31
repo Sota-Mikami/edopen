@@ -6,7 +6,7 @@
 @section('content')
 
 <table>
-    <form action="/contents/create" method="post" enctype="multipart/form-data">
+    <form action="/contents/confirm" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
         @if ($errors->has('img1'))
             <tr>

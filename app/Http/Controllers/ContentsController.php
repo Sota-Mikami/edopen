@@ -32,6 +32,15 @@ class ContentsController extends Controller
         return view('content.create');
     }
 
+    public function confirm(ContentRequest $request){
+        Log::debug($request->all());
+        $content = $request->all();
+        $test = $request->file('img1')->store('content_images','public');
+        Log::debug($test);
+
+        // return view('content.confirm',['content'=>$content]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -41,7 +50,8 @@ class ContentsController extends Controller
     public function store(ContentRequest $request)
     {
         Log::debug('test');
-        Log::debug($request->all());
+        // Log::debug($request->input());
+
         return redirect('/contents/create');
     }
 

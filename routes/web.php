@@ -40,6 +40,8 @@ Route::post('user/edit','UsersController@update');
 Route::get('/contents/create','ContentsController@create');
 Route::post('/contents/create','ContentsController@store');
 
+Route::post('/contents/confirm','ContentsController@confirm');
+
 
 // Route::get('contents/create',function(){
 //     view('content.create');
