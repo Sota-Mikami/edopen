@@ -8,48 +8,48 @@
 <table>
     <form action="/contents/confirm" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
-        @if ($errors->has('img1'))
+        @if ($errors->has('files[][img]'))
             <tr>
-                <th>ERROR</th><td>{{ $errors->first('img1') }}</td>
+                <th>ERROR</th><td>{{ $errors->first('files[][img]') }}</td>
             </tr>
         @endif
         <tr>
             <th>教材イメージ1</th>
             <td>
-                <input type="file" name="img1" multiple>
+                <input type="file" name="files[][img]" multiple>
             </td>
         </tr>
-        @if ($errors->has('img2'))
+        @if ($errors->has('files[][img]'))
             <tr>
-                <th>ERROR</th><td>{{ $errors->first('img2') }}</td>
+                <th>ERROR</th><td>{{ $errors->first('files[][img]') }}</td>
             </tr>
         @endif
         <tr>
             <th>教材イメージ2</th>
             <td>
-                <input type="file" name="img2" multiple>
+                <input type="file" name="files[][img]" multiple>
             </td>
         </tr>
-        @if ($errors->has('img3'))
+        @if ($errors->has('files[][img]'))
             <tr>
-                <th>ERROR</th><td>{{ $errors->first('img3') }}</td>
+                <th>ERROR</th><td>{{ $errors->first('files[][img]') }}</td>
             </tr>
         @endif
         <tr>
             <th>教材イメージ3</th>
             <td>
-                <input type="file" name="img3" multiple>
+                <input type="file" name="files[][img]" multiple>
             </td>
         </tr>
-        @if ($errors->has('img4'))
+        @if ($errors->has('files[][img]'))
             <tr>
-                <th>ERROR</th><td>{{ $errors->first('img4') }}</td>
+                <th>ERROR</th><td>{{ $errors->first('files[][img]') }}</td>
             </tr>
         @endif
         <tr>
             <th>教材イメージ4</th>
             <td>
-                <input type="file" name="img4" multiple>
+                <input type="file" name="files[][img]" multiple>
             </td>
         </tr>
         @if ($errors->has('title'))

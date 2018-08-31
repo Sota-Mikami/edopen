@@ -40,7 +40,10 @@ Route::post('user/edit','UsersController@update');
 Route::get('/contents/create','ContentsController@create');
 Route::post('/contents/create','ContentsController@store');
 
-Route::post('/contents/confirm','ContentsController@confirm');
+Route::match(['GET','POST'],'/contents/confirm','ContentsController@confirm');
+
+Route::post('/contents/store','ContentsController@store');
+// Route::get('/contents/confirm','ContentsController@confirm');
 
 
 // Route::get('contents/create',function(){
