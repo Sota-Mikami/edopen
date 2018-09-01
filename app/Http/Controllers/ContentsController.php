@@ -175,7 +175,7 @@ class ContentsController extends Controller
     {
         $content = Content::find($request->id);
         $content_imgs = Content::find($request->id)->content_imgs;
-        // dd($content->title);
+        // dd($content_imgs->img1);
 
 
         return view('content.show',['content'=>$content,'content_imgs'=>$content_imgs]);
