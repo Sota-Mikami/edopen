@@ -79,16 +79,18 @@ class ContentsController extends Controller
 
     }
 
-    // コンテンツ投稿確認画面において、キャンセルした場合に一時保存フォルダ（temp）から投稿する画像を削除する
+    // コンテンツ投稿確認画面において、キャンセルした場合に一時保存フォルダ（temp）から投稿するファイルを削除する
     public function cancel(){
         if (session()->exists('content')) {
             // セッションから画像データを取得
             $content = session()->get('content');
 
-            // アップロードされた画像の数だけ、指定のファイルを削除
+            // アップロードされたコンテンツ画像の数だけ、指定のファイルを削除
             foreach ($content['images'] as $value) {
-                $file = File::Delete(storage_path() . "/app/public/".$value);
+                File::Delete(storage_path() . "/app/public/".$value);
             }
+            //教材コンテンツを一時保存フォルダから削除
+            File::Delete(storage_path() . "/app/public/".$content['teaching_material']);
         }
 
         return redirect('/contents/create')->withInput($content);
