@@ -41,7 +41,7 @@ class ContentsController extends Controller
         $files=[];
         $teaching_material = '';
 
-        if ($request->file('files')) {
+        // if (!empty($request->file('files'))) {
             $i = 0 ;
             foreach ($request->file('files') as $index => $e) {
                 $ext = $e['img'];
@@ -57,7 +57,7 @@ class ContentsController extends Controller
 
             $teaching_material = $request->file('teaching_material')->store('teaching_materials/temp','public');
 
-        }
+        // }
 
 
         $contents_info = [
@@ -114,7 +114,7 @@ class ContentsController extends Controller
         $user_id = Auth::user()->id; //ログインユーザー取得
 
 
-        if ($request->file('files')) {
+        // if (!empty($request->file('files'))) {
             // content_imgsテーブルの該当するimgカラムにそれぞれセット
             // （最大4つまで画像保存可  : img1 ~ img4）
             foreach($request->images as $index => $img){
@@ -146,7 +146,7 @@ class ContentsController extends Controller
 
             Log::debug($teaching_material_name);
 
-        }
+        // }
 
 
 

@@ -59,8 +59,9 @@ class UsersController extends Controller
         $user->save();
 
         info('user : '.$user);
-
-        return redirect('/index');
+        if (Auth::attempt(['email'=>$request->email, 'password'=>$request->password])) {
+            return redirect('index');
+        }
     }
 
     /**

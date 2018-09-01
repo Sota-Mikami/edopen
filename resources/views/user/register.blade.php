@@ -24,7 +24,7 @@
             <th>Password</th><td><input type="password" name="password"></td>
         </tr>
         <tr>
-            <th></th><td><input type="submit" value="send"></td>
+            <th></th><td><input type="submit" value="登録"></td>
         </tr>
     </form>
 </table>
