@@ -15,7 +15,6 @@
     @if (!empty($e))
         <tr>
             <th>教材イメージ {{ $index +1}}</th>
-            <td>{{ $e }}</td>
             <td>
                 <img style="width:200px;" src="{!! asset('storage/'.$e) !!}" alt="ユーザー画像">
             </td>
