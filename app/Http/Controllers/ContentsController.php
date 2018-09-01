@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\ContentRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use File;
 use App\User;
 use App\Content;
 use App\ContentImg;
@@ -71,6 +73,27 @@ class ContentsController extends Controller
 
     }
 
+    // コンテンツ投稿確認画面において、キャンセルした場合に一時保存フォルダ（temp）から投稿する画像を削除する
+    public function cancel(){
+        if (session()->exists('content')) {
+            // セッションから画像データを取得
+            $content = session()->get('content');
+
+            // アップロードされた画像の数だけ、指定のファイルを削除
+            foreach ($content['images'] as $value) {
+                $file = File::Delete(storage_path() . "/app/public/".$value);
+            }
+        }
+
+
+
+
+
+
+
+        // return redirect('/contents/create');
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -102,6 +125,7 @@ class ContentsController extends Controller
             $params[$column] =$file_name;
 
             //確認画面時に一時保存したファイルをユーザー別ディレクトリへ移動
+            // TODO: user_idでディレクトリ区切っている部分をcontents_idで区切るべき
             if (!file_exists(storage_path() . "/app/public/content_images/" . $user_id)) {
                 mkdir(storage_path() . "/app/public/content_images/" . $user_id, 0777);
             }
@@ -110,28 +134,10 @@ class ContentsController extends Controller
             rename(storage_path() . "/app/public/content_images/temp/".$file_name , storage_path() . "/app/public/content_images/" . $user_id .'/'.$file_name );
         }
 
-
-
         //contentテーブルに関連するcontent_imgsテーブルにimgカラムをインサート
         $content_info->content_imgs()->create($params);
 
-
-        Log::debug($params);
-
-
-        // Log::debug(publish_path());
-
-
-
-
-
-
-        Log::debug("==========================");
-        Log::debug("store : ");
-        Log::debug($request);
-
-
-
+        return view('content.complete');
         // return redirect('/contents/create');
 
         //もし確認画面でキャンセルの場合、

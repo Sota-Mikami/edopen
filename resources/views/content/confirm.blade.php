@@ -41,6 +41,7 @@
         @endif
     @endforeach
     <input type="submit" value="登録する">
+    <a href="/contents/cancel">更新せずに戻る</a>
 </form>
 
 

@@ -43,6 +43,7 @@ Route::post('/contents/create','ContentsController@store');
 Route::match(['GET','POST'],'/contents/confirm','ContentsController@confirm');
 
 Route::post('/contents/store','ContentsController@store');
+Route::get('/contents/cancel','ContentsController@cancel');
 // Route::get('/contents/confirm','ContentsController@confirm');
 
 
