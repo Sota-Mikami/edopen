@@ -38,22 +38,26 @@ class ContentsController extends Controller
 
     public function confirm(ContentRequest $request){
 
-        $i = 0 ;
-        foreach ($request->file('files') as $index => $e) {
-            $ext = $e['img'];
-            Log::debug($ext);
+        $files=[];
+        $teaching_material = '';
 
-            //ファイルを一時保存ディレクトリへ保存
-            $files[$i] = $ext->store('content_images/temp','public');
-            Log::debug($files);
-            $i++;
+        if ($request->file('files')) {
+            $i = 0 ;
+            foreach ($request->file('files') as $index => $e) {
+                $ext = $e['img'];
+                Log::debug($ext);
+
+                //ファイルを一時保存ディレクトリへ保存
+                $files[$i] = $ext->store('content_images/temp','public');
+                Log::debug($files);
+                $i++;
+            }
+            Log::debug('teaching_material');
+            Log::debug($request->file('teaching_material'));
+
+            $teaching_material = $request->file('teaching_material')->store('teaching_materials/temp','public');
+
         }
-        Log::debug('teaching_material');
-        Log::debug($request->file('teaching_material'));
-
-        $teaching_material = $request->file('teaching_material')->store('teaching_materials/temp','public');
-
-
 
 
         $contents_info = [
@@ -106,40 +110,43 @@ class ContentsController extends Controller
     public function store(ContentRequest $request)
     {
         $params =[];
+        $teaching_material_name  = '';
         $user_id = Auth::user()->id; //ログインユーザー取得
 
 
-        // content_imgsテーブルの該当するimgカラムにそれぞれセット
-        // （最大4つまで画像保存可  : img1 ~ img4）
-        foreach($request->images as $index => $img){
-            $index++;
-            $column = 'img'.$index;//カラム名
-            //ファイル名を取得する
-            $file_name = str_replace('content_images/temp/','',$img['img']);
-            $params[$column] =$file_name;
+        if ($request->file('files')) {
+            // content_imgsテーブルの該当するimgカラムにそれぞれセット
+            // （最大4つまで画像保存可  : img1 ~ img4）
+            foreach($request->images as $index => $img){
+                $index++;
+                $column = 'img'.$index;//カラム名
+                //ファイル名を取得する
+                $file_name = str_replace('content_images/temp/','',$img['img']);
+                $params[$column] =$file_name;
 
-            //確認画面時に一時保存したファイルをユーザー別ディレクトリへ移動
-            // TODO: user_idでディレクトリ区切っている部分をcontents_idで区切るべき
-            if (!file_exists(storage_path() . "/app/public/content_images/" . $user_id)) {
-                mkdir(storage_path() . "/app/public/content_images/" . $user_id, 0777);
+                //確認画面時に一時保存したファイルをユーザー別ディレクトリへ移動
+                // TODO: user_idでディレクトリ区切っている部分をcontents_idで区切るべき
+                if (!file_exists(storage_path() . "/app/public/content_images/" . $user_id)) {
+                    mkdir(storage_path() . "/app/public/content_images/" . $user_id, 0777);
+                }
+
+                // // 一時保存から本番の格納場所へ移動
+                rename(storage_path() . "/app/public/content_images/temp/".$file_name , storage_path() . "/app/public/content_images/" . $user_id .'/'.$file_name );
+            }
+
+            //教材コンテンツのファイル名を取得する
+            $teaching_material_name = str_replace('teaching_materials/temp/','',$request->teaching_material);
+
+            if (!file_exists(storage_path() . "/app/public/teaching_materials/" . $user_id)) {
+                mkdir(storage_path() . "/app/public/teaching_materials/" . $user_id, 0777);
             }
 
             // // 一時保存から本番の格納場所へ移動
-            rename(storage_path() . "/app/public/content_images/temp/".$file_name , storage_path() . "/app/public/content_images/" . $user_id .'/'.$file_name );
+            rename(storage_path() . "/app/public/teaching_materials/temp/".$teaching_material_name , storage_path() . "/app/public/teaching_materials/" . $user_id .'/'.$teaching_material_name );
+
+            Log::debug($teaching_material_name);
+
         }
-
-        //ファイル名を取得する
-        $teaching_material_name = str_replace('teaching_materials/temp/','',$request->teaching_material);
-
-        if (!file_exists(storage_path() . "/app/public/teaching_materials/" . $user_id)) {
-            mkdir(storage_path() . "/app/public/teaching_materials/" . $user_id, 0777);
-        }
-
-        // // 一時保存から本番の格納場所へ移動
-        rename(storage_path() . "/app/public/teaching_materials/temp/".$teaching_material_name , storage_path() . "/app/public/teaching_materials/" . $user_id .'/'.$teaching_material_name );
-
-        Log::debug($teaching_material_name);
-
 
 
 
@@ -164,9 +171,14 @@ class ContentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request )
     {
-        //
+        $content = Content::find($request->id);
+        $content_imgs = Content::find($request->id)->content_imgs;
+        // dd($content->title);
+
+
+        return view('content.show',['content'=>$content,'content_imgs'=>$content_imgs]);
     }
 
     /**
@@ -202,4 +214,24 @@ class ContentsController extends Controller
     {
         //
     }
+
+
+    public function download(Request $request){
+        $user_id = Auth::user()->id; //ログインユーザー取得
+
+        // dd($request->file_name);
+        $file_path = storage_path()."/app/public/teaching_materials/" . $user_id.'/'. $request->file_name;
+
+        // dd($file_path);
+
+        return response()->download($file_path);
+
+        return redirect('/content/show?id='.$request->id);
+    }
+
+
+
+
+
+
 }

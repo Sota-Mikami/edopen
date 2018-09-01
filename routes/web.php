@@ -44,9 +44,6 @@ Route::match(['GET','POST'],'/contents/confirm','ContentsController@confirm');
 
 Route::post('/contents/store','ContentsController@store');
 Route::get('/contents/cancel','ContentsController@cancel');
-// Route::get('/contents/confirm','ContentsController@confirm');
 
-
-// Route::get('contents/create',function(){
-//     view('content.create');
-// });
+Route::get('/content/show','ContentsController@show');
+Route::post('/content/download','ContentsController@download');

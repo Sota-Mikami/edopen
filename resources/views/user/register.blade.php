@@ -29,4 +29,6 @@
     </form>
 </table>
 
+<a href="/users/login">ログイン</a>
+
 @endsection

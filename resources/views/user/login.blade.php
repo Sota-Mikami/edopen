@@ -22,5 +22,6 @@
     </form>
 </table>
 
+<a href="/users/sign_up">新規登録</a>
 
 @endsection

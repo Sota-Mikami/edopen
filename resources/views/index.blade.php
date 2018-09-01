@@ -50,5 +50,32 @@
 {{-- 教材アップロードボタン --}}
 <p><a href="contents/create">教材をアップロード</a></p>
 
+<h3 style="margin-top:100px;">コンテンツ一覧</h3>
+
+<table>
+    @foreach ($contents as $key => $value)
+        <ul>
+            <li>
+                <a href="/content/show?id={{ $value->id }}">
+                    No.{{ $key +1 .' : '. $value->title}}
+                </a>
+            </li>
+        </ul>
+
+
+    @endforeach
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
 
 @endsection

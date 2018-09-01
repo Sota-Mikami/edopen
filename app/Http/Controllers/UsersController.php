@@ -60,7 +60,7 @@ class UsersController extends Controller
 
         info('user : '.$user);
 
-        return view('user.register');
+        return redirect('/index');
     }
 
     /**

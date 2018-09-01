@@ -114,6 +114,6 @@
     </form>
 
 </table>
-
+<a href="/index">もどる</a>
 
 @endsection

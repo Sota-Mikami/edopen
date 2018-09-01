@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 
 use App\User;
+use App\Content;
+use App\ContentImg;
 use Illuminate\Http\Request;
 // use App\Http\Requests\UserRequest;
 // use Illuminate\Support\Facades\Hash;
@@ -32,6 +34,10 @@ class HomeController extends Controller
         //ユーザー情報を取得
         $user = Auth::user();
         info($user);
-        return view('index',['user'=>$user]);
+
+        $contents = Content::all();
+        info($contents);
+
+        return view('index',['user'=>$user,'contents'=>$contents]);
     }
 }
