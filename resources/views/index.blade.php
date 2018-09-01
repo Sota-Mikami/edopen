@@ -22,7 +22,7 @@
             </td>
         @else
             <td style="width:200px; hight:200px;">
-                    <img style="width:200px;" src="{{public_path('profile_images/'.$user->img)}}" alt="ユーザー画像">
+                    <img style="width:200px;" src="{!! asset('storage/'.$user->img) !!}" alt="ユーザー画像">
                 </td>
         @endif
     </tr>
