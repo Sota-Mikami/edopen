@@ -18,6 +18,7 @@ class CreateContentTable extends Migration
             $table->text('title');
             $table->text('detail');
             $table->integer('price');
+            $table->text('teaching_material');
             $table->integer('user_id');
             $table->timestamps();
         });

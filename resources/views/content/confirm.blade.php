@@ -28,6 +28,9 @@
     <tr>
         <th>販売価格</th><td>{{ $content['price'] }}</td>
     </tr>
+    <tr>
+        <th>教材コンテンツ</th><td>{{ $content['teaching_material'] }}</td>
+    </tr>
 </table>
 
 <form action="/contents/store" method="post">
@@ -40,6 +43,7 @@
             <input type="hidden" name="images[][img]" value="{{ $e }}">
         @endif
     @endforeach
+    <input type="hidden" name="teaching_material" value="{{ $content['teaching_material'] }}">
     <input type="submit" value="登録する">
     <a href="/contents/cancel">更新せずに戻る</a>
 </form>

@@ -38,12 +38,9 @@ class ContentsController extends Controller
 
     public function confirm(ContentRequest $request){
 
-        Log::debug($request->file('files'));
-
         $i = 0 ;
         foreach ($request->file('files') as $index => $e) {
             $ext = $e['img'];
-            Log::debug($index);
             Log::debug($ext);
 
             //ファイルを一時保存ディレクトリへ保存
@@ -51,23 +48,32 @@ class ContentsController extends Controller
             Log::debug($files);
             $i++;
         }
+        Log::debug('teaching_material');
+        Log::debug($request->file('teaching_material'));
+
+        $teaching_material = $request->file('teaching_material')->store('teaching_materials/temp','public');
+
+
+
 
         $contents_info = [
             'title' => $request->title,
             'detail'=>$request->detail,
             'price' =>$request->price,
             'images'=>$files,
+            'teaching_material'=>$teaching_material,
         ];
+        Log::debug($contents_info);
+
+
 
         $request->session()->put('content',$contents_info);
         $test = session()->get('content');
-        Log::debug($test);
-        Log::debug("==========================");
 
+        Log::debug("==========================");
         $data_all = session()->all();
         Log::debug($data_all);
 
-        // Log::debug(storage_path());
 
         return view('content.confirm');
 
@@ -85,13 +91,7 @@ class ContentsController extends Controller
             }
         }
 
-
-
-
-
-
-
-        // return redirect('/contents/create');
+        return redirect('/contents/create')->withInput($content);
     }
 
 
@@ -104,15 +104,7 @@ class ContentsController extends Controller
     public function store(ContentRequest $request)
     {
         $params =[];
-
         $user_id = Auth::user()->id; //ログインユーザー取得
-
-        $content_info = new Content;
-        $content_info->title = $request->title;
-        $content_info->detail = $request->detail;
-        $content_info->price = $request->price;
-        $content_info->user_id = $user_id;
-        $content_info->save();
 
 
         // content_imgsテーブルの該当するimgカラムにそれぞれセット
@@ -134,14 +126,34 @@ class ContentsController extends Controller
             rename(storage_path() . "/app/public/content_images/temp/".$file_name , storage_path() . "/app/public/content_images/" . $user_id .'/'.$file_name );
         }
 
+        //ファイル名を取得する
+        $teaching_material_name = str_replace('teaching_materials/temp/','',$request->teaching_material);
+
+        if (!file_exists(storage_path() . "/app/public/teaching_materials/" . $user_id)) {
+            mkdir(storage_path() . "/app/public/teaching_materials/" . $user_id, 0777);
+        }
+
+        // // 一時保存から本番の格納場所へ移動
+        rename(storage_path() . "/app/public/teaching_materials/temp/".$teaching_material_name , storage_path() . "/app/public/teaching_materials/" . $user_id .'/'.$teaching_material_name );
+
+        Log::debug($teaching_material_name);
+
+
+
+
+        $content_info = new Content;
+        $content_info->title = $request->title;
+        $content_info->detail = $request->detail;
+        $content_info->price = $request->price;
+        $content_info->user_id = $user_id;
+        $content_info->teaching_material = $teaching_material_name;
+        $content_info->save();
+
         //contentテーブルに関連するcontent_imgsテーブルにimgカラムをインサート
         $content_info->content_imgs()->create($params);
 
         return view('content.complete');
-        // return redirect('/contents/create');
 
-        //もし確認画面でキャンセルの場合、
-        //tempディレクトリに保存されている画像を削除する
     }
 
     /**

@@ -2,6 +2,18 @@
 
 @section('title','Add Content')
 
+@php
+    // 確認画面でキャンセルされた場合に初期値をセット
+    $value = [
+        'title' => '',
+        'detail' =>'',
+        'price'=>'',
+    ];
+    $input_session = session()->all();
+    if (!empty($input_session['_old_input'])) {
+        $value = $input_session['_old_input'];
+    }
+@endphp
 
 @section('content')
 
@@ -60,7 +72,7 @@
         <tr>
             <th>教材名</th>
             <td>
-                <input type="text" name="title">
+                <input type="text" name="title" value="{{ $value['title'] }}">
             </td>
         </tr>
         @if ($errors->has('detail'))
@@ -71,7 +83,7 @@
         <tr>
             <th>教材の詳細説明</th>
             <td>
-                <textarea name="detail" rows="8" cols="80"></textarea>
+                <textarea name="detail" rows="8" cols="80">{{ $value['detail'] }}</textarea>
             </td>
         </tr>
         @if ($errors->has('price'))
@@ -82,7 +94,18 @@
         <tr>
             <th>販売価格</th>
             <td>
-                <input type="text" name="price">
+                <input type="text" name="price" value="{{ $value['price'] }}">
+            </td>
+        </tr>
+        @if ($errors->has('teaching_material'))
+            <tr>
+                <th>ERROR</th><td>{{ $errors->first('teaching_material') }}</td>
+            </tr>
+        @endif
+        <tr>
+            <th>教材コンテンツ</th>
+            <td>
+                <input type="file" name="teaching_material" multiple>
             </td>
         </tr>
         <tr>
