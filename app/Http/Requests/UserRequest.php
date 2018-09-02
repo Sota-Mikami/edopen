@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\User;
 
 class UserRequest extends FormRequest
 {
@@ -27,15 +28,25 @@ class UserRequest extends FormRequest
         if ($this->id) {
             info("update");
             $rules['email'] = 'email | unique:users,email,'.$this->email.',email';
+
+            // try {
+            //     return $rules;
+            // } catch (\Exception $e) {
+            //     $errorCode = $e->errorInfo[1];
+            //     if($errorCode == 1062) //重複エラーをここでキャッチ
+            //       {
+            //         return back()->withInput()->withErrors(['email' => "入力されたメールアドレスはすでに使用されています。"]);
+            //       }
+            //
+            // }
+
         }else{
             info("new");
-            info($this);
             $rules['email'] = 'email | unique:users,email';
             $rules['password'] = 'required';
-            // $password = ['password' =>'required'];
         }
 
-        // dd($rules);
+
 
         return $rules;
 
