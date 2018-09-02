@@ -11,9 +11,15 @@
 <table>
     <form action="/user/edit" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
+        <input type="hidden" name="id" value="{{ $user->id }}">
         <tr>
             <th>名前</th><td><input type="text" name="name" value="{{ old( 'name',$user->name) }}"></td>
         </tr>
+        @if ($errors->has('email'))
+            <tr>
+                <th>ERROR</th><td>{{ $errors->first('email') }}</td>
+            </tr>
+        @endif
         <tr>
             <th>メール</th><td><input type="email" name="email" value="{{ old('email',$user->email)}}"></td>
         </tr>

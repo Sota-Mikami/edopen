@@ -101,20 +101,18 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     //分からない点：下記にUserRequestを使用した場合に、updateメソッドの処理が実行されない
-    public function update(Request $request)
+    public function update(UserRequest $request)
     {
-
-        // info('ファイル名'.$request->file('profile_img')->getClientOriginalName());
-        // info('function update'.$request);
-        //フォームから画像を取得し、 "/storage/app/public/profile_img"に保存
-        //フォームから画像を取得し、
-        // $path = $request->file('profile_img')->store('profile_images','public');
-        // info($path);
-
+        // dd($request);
         // 認証済みのユーザーのみ、ユーザー情報をログインできるようにする
         $user = User::find(Auth::user()->id);
-        // info($user);
-        info($request->all());
+
+        // //バリデータ
+        // $rules = [
+        //     'email'=>'email | unique:users,email,'.$user->email,
+        //     'password' =>'required'
+        // ];
+
 
         $form = $request->all();
         unset($form['_token'],$form['profile_img']);

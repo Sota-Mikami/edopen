@@ -13,13 +13,6 @@ class UserRequest extends FormRequest
     public function authorize()
     {
         return true ;
-        //// TODO: 下記の認証のやり方が良いのかが分からない
-        // if ($this->path() == 'users/sign_up' || 'user/edit') {
-        //     return true ;
-        // } else {
-        //     return false;
-        // }
-
     }
 
     /**
@@ -29,16 +22,34 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'email'=>'email',
-            'password' =>'required',
-             // 'files.*.photo' => 'image|mimes:jpeg,bmp,png',
-        ];
+        $rules = [];
+
+        if ($this->id) {
+            info("update");
+            $rules['email'] = 'email | unique:users,email,'.$this->email.',email';
+        }else{
+            info("new");
+            info($this);
+            $rules['email'] = 'email | unique:users,email';
+            $rules['password'] = 'required';
+            // $password = ['password' =>'required'];
+        }
+
+        // dd($rules);
+
+        return $rules;
+
+        // return [
+        //     'email'=>'email | '.$unique,
+        //     'password' =>'required',
+        //      // 'files.*.photo' => 'image|mimes:jpeg,bmp,png',
+        // ];
     }
 
     public function messages(){
         return  [
             'email.email' =>'メールアドレスが必要です。',
+            'email.unique'=>'入力されたメールアドレスはすでに使用されています。',
             'password.required' => 'パスワードは必ず入力してください。',
         ];
     }
