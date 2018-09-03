@@ -60,7 +60,7 @@ class UsersController extends Controller
 
         info('user : '.$user);
         if (Auth::attempt(['email'=>$request->email, 'password'=>$request->password])) {
-            return redirect('index');
+            return redirect('/');
         }
     }
 
@@ -157,7 +157,7 @@ class UsersController extends Controller
         $password = $request->password;
 
         if (Auth::attempt(['email'=>$email, 'password'=>$password])) {
-            return redirect('index');
+            return redirect('/');
         }
 
         return view('users.login', ['message'=>'ログインに失敗しました。']);
@@ -166,7 +166,7 @@ class UsersController extends Controller
     public function getLogout(){
         Auth::logout();//ログアウト
 
-        return redirect('users/login');
+        return redirect('/');
     }
 
 

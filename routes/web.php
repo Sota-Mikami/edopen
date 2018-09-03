@@ -20,7 +20,7 @@
 // Route::get('/home', 'HomeController@index')->name('home');
 
 
-Route::get('/index','HomeController@index');
+Route::get('/','HomeController@index');
 
 // ==============================
 //     ユーザー関連のルート
@@ -29,21 +29,21 @@ Route::get('/users/sign_up','UsersController@create');
 Route::post('/users/sign_up','UsersController@store');
 Route::get('users/login','UsersController@getAuth');
 Route::post('users/login','UsersController@postAuth');
-Route::get('users/logout','UsersController@getLogout');
-Route::get('user/edit','UsersController@edit');
-Route::post('user/edit','UsersController@update');
+Route::get('users/logout','UsersController@getLogout')->middleware('auth');
+Route::get('user/edit','UsersController@edit')->middleware('auth');
+Route::post('user/edit','UsersController@update')->middleware('auth');
 
 
 // ==============================
 //     教材関連のルート
 // ==============================
-Route::get('/contents/create','ContentsController@create');
-Route::post('/contents/create','ContentsController@store');
+Route::get('/contents/create','ContentsController@create')->middleware('auth');
+Route::post('/contents/create','ContentsController@store')->middleware('auth');
 
-Route::match(['GET','POST'],'/contents/confirm','ContentsController@confirm');
+Route::match(['GET','POST'],'/contents/confirm','ContentsController@confirm')->middleware('auth');
 
-Route::post('/contents/store','ContentsController@store');
-Route::get('/contents/cancel','ContentsController@cancel');
+Route::post('/contents/store','ContentsController@store')->middleware('auth');
+Route::get('/contents/cancel','ContentsController@cancel')->middleware('auth');
 
-Route::get('/content/show','ContentsController@show');
-Route::post('/content/download','ContentsController@download');
+Route::get('/content/show','ContentsController@show')->middleware('auth');
+Route::post('/content/download','ContentsController@download')->middleware('auth');

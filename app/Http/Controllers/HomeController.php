@@ -21,7 +21,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -31,12 +31,13 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $user = new User;
         //ユーザー情報を取得
-        $user = Auth::user();
-        info($user);
+        if (Auth::check()) {
+            $user = Auth::user();
+        }
 
         $contents = Content::all();
-        info($contents);
 
         return view('index',['user'=>$user,'contents'=>$contents]);
     }
