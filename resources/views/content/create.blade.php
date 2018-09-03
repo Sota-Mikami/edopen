@@ -13,6 +13,8 @@
     if (!empty($input_session['_old_input'])) {
         $value = $input_session['_old_input'];
     }
+
+
 @endphp
 
 @section('content')

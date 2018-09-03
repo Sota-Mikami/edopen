@@ -17,6 +17,7 @@ use App\ContentImg;
 class ContentsController extends Controller
 {
     /**
+     *
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -111,7 +112,6 @@ class ContentsController extends Controller
         $teaching_material_name  = '';
         $user_id = Auth::user()->id; //ログインユーザー取得
 
-        // dd($request->images);
 
         if (!empty($request->images)) {
             // content_imgsテーブルの該当するimgカラムにそれぞれセット
@@ -129,12 +129,10 @@ class ContentsController extends Controller
         }
 
         if (!empty($request->teaching_material)) {
-            //教材コンテンツのファイル名を取得する
+            //教材コンテンツファイル名取得
             $teaching_material_name = str_replace('teaching_materials/temp/','',$request->teaching_material);
-
+            //一時保存ディレクトリから本番用ディレクトリへファイル移動
             $this->moveFile('teaching_materials',$user_id,$teaching_material_name);
-
-
         }
 
 
@@ -209,14 +207,9 @@ class ContentsController extends Controller
     // 教材コンテンツダウンロードメソッド
     public function download(Request $request){
         $user_id = Auth::user()->id; //ログインユーザー取得
-
-        // dd($request->file_name);
         $file_path = storage_path()."/app/public/teaching_materials/" . $user_id.'/'. $request->file_name;
 
-        // dd($file_path);
-
         return response()->download($file_path);
-
         return redirect('/content/show?id='.$request->id);
     }
 
@@ -229,11 +222,8 @@ class ContentsController extends Controller
         if (!file_exists(storage_path() . "/app/public/".$directory."/" . $user_id)) {
             mkdir(storage_path() . "/app/public/".$directory."/" . $user_id, 0777);
         }
-
         // // 一時保存から本番の格納場所へ移動
         rename(storage_path() . "/app/public/".$directory."/temp/".$file_name , storage_path() . "/app/public//".$directory."/" . $user_id .'/'.$file_name );
     }
-
-
 
 }
