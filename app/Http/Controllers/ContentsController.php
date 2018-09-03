@@ -121,9 +121,7 @@ class ContentsController extends Controller
                 $column = 'img'.$index;//カラム名
                 //ファイル名を取得する
                 $file_name = str_replace('content_images/temp/','',$img['img']);
-                $params[$column] =$file_name;
-
-                $this->moveFile('content_images',$user_id,$file_name);
+                $file_names[$column] =$file_name;
 
             }
         }
@@ -131,10 +129,9 @@ class ContentsController extends Controller
         if (!empty($request->teaching_material)) {
             //教材コンテンツファイル名取得
             $teaching_material_name = str_replace('teaching_materials/temp/','',$request->teaching_material);
-            //一時保存ディレクトリから本番用ディレクトリへファイル移動
-            $this->moveFile('teaching_materials',$user_id,$teaching_material_name);
-        }
 
+            // $this->moveFile('teaching_materials',$user_id,$teaching_material_name);
+        }
 
 
         $content_info = new Content;
@@ -143,10 +140,25 @@ class ContentsController extends Controller
         $content_info->price = $request->price;
         $content_info->user_id = $user_id;
         $content_info->teaching_material = $teaching_material_name;
-        $content_info->save();
+        $test1 = $content_info->save();
+        $cotent_id = $content_info->id;
 
         //contentテーブルに関連するcontent_imgsテーブルにimgカラムをインサート
-        $content_info->content_imgs()->create($params);
+        $content_info->content_imgs()->create($file_names);
+
+
+
+        if (!empty($request->images)) {
+            foreach ($file_names as $file) {
+                //一時保存ディレクトリから本番用ディレクトリへファイル移動
+                $this->moveFile('content_images',$cotent_id, $file);
+            }
+        }
+
+        if (!empty($request->teaching_material)) {
+            //一時保存ディレクトリから本番用ディレクトリへファイル移動
+            $this->moveFile('teaching_materials',$cotent_id, $teaching_material_name);
+        }
 
         return view('content.complete');
 
@@ -206,8 +218,10 @@ class ContentsController extends Controller
 
     // 教材コンテンツダウンロードメソッド
     public function download(Request $request){
-        $user_id = Auth::user()->id; //ログインユーザー取得
-        $file_path = storage_path()."/app/public/teaching_materials/" . $user_id.'/'. $request->file_name;
+        // コンテンツのIDを取得
+        $content_id = Content::find($request->id)->id;
+
+        $file_path = storage_path()."/app/public/teaching_materials/" . $content_id.'/'. $request->file_name;
 
         return response()->download($file_path);
         return redirect('/content/show?id='.$request->id);

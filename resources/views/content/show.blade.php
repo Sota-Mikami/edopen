@@ -3,7 +3,7 @@
 @section('title','Show')
 
 @php
-    // var_dump($content);
+    // dd($content->id);
 @endphp
 
 @section('content')
@@ -12,7 +12,7 @@
         <tr>
             <th>画像1</th>
             <td>
-                <img style="width:200px;" src="{!! asset('storage/content_images/'.$content->user_id.'/'.$content_imgs->img1) !!}" alt="教材イメージ">
+                <img style="width:200px;" src="{!! asset('storage/content_images/'.$content->id.'/'.$content_imgs->img1) !!}" alt="教材イメージ">
             </td>
         </tr>
     @endif
@@ -20,7 +20,7 @@
         <tr>
             <th>画像2</th>
             <td>
-                <img style="width:200px;" src="{!! asset('storage/content_images/'.$content->user_id.'/'.$content_imgs->img2) !!}" alt="教材イメージ">
+                <img style="width:200px;" src="{!! asset('storage/content_images/'.$content->id.'/'.$content_imgs->img2) !!}" alt="教材イメージ">
             </td>
         </tr>
     @endif
@@ -28,7 +28,7 @@
         <tr>
             <th>画像3</th>
             <td>
-                <img style="width:200px;" src="{!! asset('storage/content_images/'.$content->user_id.'/'.$content_imgs->img3) !!}" alt="教材イメージ">
+                <img style="width:200px;" src="{!! asset('storage/content_images/'.$content->id.'/'.$content_imgs->img3) !!}" alt="教材イメージ">
             </td>
         </tr>
     @endif
@@ -36,7 +36,7 @@
         <tr>
             <th>画像4</th>
             <td>
-                <img style="width:200px;" src="{!! asset('storage/content_images/'.$content->user_id.'/'.$content_imgs->img4) !!}" alt="教材イメージ">
+                <img style="width:200px;" src="{!! asset('storage/content_images/'.$content->id.'/'.$content_imgs->img4) !!}" alt="教材イメージ">
             </td>
         </tr>
     @endif
