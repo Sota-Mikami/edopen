@@ -308,7 +308,7 @@ div {
   background-color    : rgba(255,255,255,0.0);
   top                 : 25px;
   height              : 25px;
-  width               : 274px;
+  width               : 275px;
   position            : absolute;
   margin              : 0;
   left                : 594px;
@@ -354,7 +354,7 @@ div {
   background-color    : rgba(255,255,255,0.0);
   top                 : 0px;
   height              : 25px;
-  width               : 102px;
+  width               : 103px;
   position            : absolute;
   margin              : 0;
   left                : 172px;
@@ -391,14 +391,26 @@ div {
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
 }
+.settingsub .headerindex .menus .menu2 .notification .notification1 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 8px;
+  width               : 8px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  -ms-transform       : rotate(0deg); /* IE 9 */
+  -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
+  transform           : rotate(0deg);
+}
 .settingsub .headerindex .search {
   background-color    : rgba(255,255,255,0.0);
   top                 : 25px;
-  height              : 29px;
-  width               : 144px;
+  height              : 32px;
+  width               : 147px;
   position            : absolute;
   margin              : 0;
-  left                : 206px;
+  left                : 203px;
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
@@ -409,6 +421,18 @@ div {
   height              : 18px;
   width               : 18px;
   position            : absolute;
+  margin              : 0;
+  left                : 3px;
+  -ms-transform       : rotate(0deg); /* IE 9 */
+  -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
+  transform           : rotate(0deg);
+}
+.settingsub .headerindex .search .icsearch24px .icsearch24px1 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 18px;
+  width               : 18px;
+  position            : relative;
   margin              : 0;
   left                : 0px;
   -ms-transform       : rotate(0deg); /* IE 9 */
@@ -422,7 +446,7 @@ div {
   width               : auto;
   position            : absolute;
   margin              : 0;
-  left                : 39px;
+  left                : 42px;
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
@@ -444,6 +468,18 @@ div {
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
 }
+.settingsub .headerindex .notifications .notifications1 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 20px;
+  width               : 16px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  -ms-transform       : rotate(0deg); /* IE 9 */
+  -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
+  transform           : rotate(0deg);
+}
 .settingsub .headerindex .icexpandmore24px {
   background-color    : rgba(255,255,255,0.0);
   top                 : 41px;
@@ -452,6 +488,18 @@ div {
   position            : absolute;
   margin              : 0;
   left                : 1369px;
+  -ms-transform       : rotate(0deg); /* IE 9 */
+  -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
+  transform           : rotate(0deg);
+}
+.settingsub .headerindex .icexpandmore24px .icexpandmore24px1 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 8px;
+  width               : 12px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
@@ -531,6 +579,18 @@ div {
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
 }
+.settingsub .headerindex .btnupload .icbackup24px .icbackup24px1 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 14px;
+  width               : 20px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  -ms-transform       : rotate(0deg); /* IE 9 */
+  -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
+  transform           : rotate(0deg);
+}
 .settingsub .headerindex .btnupload .text {
   background-color    : rgba(255,255,255,0.0);
   top                 : 13px;
@@ -568,6 +628,18 @@ div {
   position            : absolute;
   margin              : 0;
   left                : 36px;
+  -ms-transform       : rotate(0deg); /* IE 9 */
+  -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
+  transform           : rotate(0deg);
+}
+.settingsub .headerindex .icmenu24px .icmenu24px1 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 12px;
+  width               : 18px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);

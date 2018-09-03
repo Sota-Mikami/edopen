@@ -440,8 +440,8 @@ div {
 }
 .indexnonad .mainarea .contentnew {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 630px;
-  height              : 524px;
+  top                 : 629px;
+  height              : 525px;
   width               : 1080px;
   position            : absolute;
   margin              : 0;
@@ -452,7 +452,7 @@ div {
 }
 .indexnonad .mainarea .contentnew .contentcard {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 45px;
+  top                 : 46px;
   height              : 233px;
   width               : 328px;
   position            : absolute;
@@ -461,6 +461,10 @@ div {
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
+  transition          : all 0.2s ease-in-out;
+}
+.indexnonad .mainarea .contentnew .contentcard:hover {
+  transform           : scale(1.1);
 }
 .indexnonad .mainarea .contentnew .contentcard .content {
   background-color    : rgba(255,255,255,0.0);
@@ -672,7 +676,7 @@ div {
 }
 .indexnonad .mainarea .contentnew .contentcard1 {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 297px;
+  top                 : 298px;
   height              : 233px;
   width               : 328px;
   position            : absolute;
@@ -681,6 +685,10 @@ div {
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
+  transition          : all 0.2s ease-in-out;
+}
+.indexnonad .mainarea .contentnew .contentcard1:hover {
+  transform           : scale(1.1);
 }
 .indexnonad .mainarea .contentnew .contentcard1 .content {
   background-color    : rgba(255,255,255,0.0);
@@ -892,7 +900,7 @@ div {
 }
 .indexnonad .mainarea .contentnew .contentcard2 {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 45px;
+  top                 : 46px;
   height              : 233px;
   width               : 328px;
   position            : absolute;
@@ -901,6 +909,10 @@ div {
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
+  transition          : all 0.2s ease-in-out;
+}
+.indexnonad .mainarea .contentnew .contentcard2:hover {
+  transform           : scale(1.1);
 }
 .indexnonad .mainarea .contentnew .contentcard2 .content {
   background-color    : rgba(255,255,255,0.0);
@@ -1112,7 +1124,7 @@ div {
 }
 .indexnonad .mainarea .contentnew .contentcard3 {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 297px;
+  top                 : 298px;
   height              : 233px;
   width               : 328px;
   position            : absolute;
@@ -1121,6 +1133,10 @@ div {
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
+  transition          : all 0.2s ease-in-out;
+}
+.indexnonad .mainarea .contentnew .contentcard3:hover {
+  transform           : scale(1.1);
 }
 .indexnonad .mainarea .contentnew .contentcard3 .content {
   background-color    : rgba(255,255,255,0.0);
@@ -1332,7 +1348,7 @@ div {
 }
 .indexnonad .mainarea .contentnew .contentcard4 {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 45px;
+  top                 : 46px;
   height              : 233px;
   width               : 328px;
   position            : absolute;
@@ -1341,6 +1357,10 @@ div {
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
+  transition          : all 0.2s ease-in-out;
+}
+.indexnonad .mainarea .contentnew .contentcard4:hover {
+  transform           : scale(1.1);
 }
 .indexnonad .mainarea .contentnew .contentcard4 .content {
   background-color    : rgba(255,255,255,0.0);
@@ -1552,7 +1572,7 @@ div {
 }
 .indexnonad .mainarea .contentnew .contentcard5 {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 297px;
+  top                 : 298px;
   height              : 233px;
   width               : 328px;
   position            : absolute;
@@ -1561,6 +1581,10 @@ div {
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
+  transition          : all 0.2s ease-in-out;
+}
+.indexnonad .mainarea .contentnew .contentcard5:hover {
+  transform           : scale(1.1);
 }
 .indexnonad .mainarea .contentnew .contentcard5 .content {
   background-color    : rgba(255,255,255,0.0);
@@ -1772,7 +1796,7 @@ div {
 }
 .indexnonad .mainarea .contentnew .h2 {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 0px;
+  top                 : 1px;
   height              : auto;
   width               : 100px;
   position            : absolute;
@@ -1804,8 +1828,8 @@ div {
 }
 .indexnonad .mainarea .teacherspopular {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 357px;
-  height              : 217px;
+  top                 : 356px;
+  height              : 218px;
   width               : 1080px;
   position            : absolute;
   margin              : 0;
@@ -1816,7 +1840,7 @@ div {
 }
 .indexnonad .mainarea .teacherspopular .teachercard {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 45px;
+  top                 : 46px;
   height              : 79px;
   width               : 328px;
   position            : absolute;
@@ -1825,6 +1849,10 @@ div {
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
+  transition          : all 0.2s ease-in-out;
+}
+.indexnonad .mainarea .teacherspopular .teachercard:hover {
+  transform           : scale(1.1);
 }
 .indexnonad .mainarea .teacherspopular .teachercard .base {
   background-color    : rgba(255,255,255,0.0);
@@ -1898,7 +1926,7 @@ div {
 }
 .indexnonad .mainarea .teacherspopular .teachercard1 {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 144px;
+  top                 : 145px;
   height              : 79px;
   width               : 328px;
   position            : absolute;
@@ -1907,6 +1935,10 @@ div {
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
+  transition          : all 0.2s ease-in-out;
+}
+.indexnonad .mainarea .teacherspopular .teachercard1:hover {
+  transform           : scale(1.1);
 }
 .indexnonad .mainarea .teacherspopular .teachercard1 .base {
   background-color    : rgba(255,255,255,0.0);
@@ -1980,7 +2012,7 @@ div {
 }
 .indexnonad .mainarea .teacherspopular .teachercard2 {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 45px;
+  top                 : 46px;
   height              : 79px;
   width               : 328px;
   position            : absolute;
@@ -1989,6 +2021,10 @@ div {
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
+  transition          : all 0.2s ease-in-out;
+}
+.indexnonad .mainarea .teacherspopular .teachercard2:hover {
+  transform           : scale(1.1);
 }
 .indexnonad .mainarea .teacherspopular .teachercard2 .base {
   background-color    : rgba(255,255,255,0.0);
@@ -2062,7 +2098,7 @@ div {
 }
 .indexnonad .mainarea .teacherspopular .teachercard3 {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 144px;
+  top                 : 145px;
   height              : 79px;
   width               : 328px;
   position            : absolute;
@@ -2071,6 +2107,10 @@ div {
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
+  transition          : all 0.2s ease-in-out;
+}
+.indexnonad .mainarea .teacherspopular .teachercard3:hover {
+  transform           : scale(1.1);
 }
 .indexnonad .mainarea .teacherspopular .teachercard3 .base {
   background-color    : rgba(255,255,255,0.0);
@@ -2144,7 +2184,7 @@ div {
 }
 .indexnonad .mainarea .teacherspopular .teachercard4 {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 45px;
+  top                 : 46px;
   height              : 79px;
   width               : 328px;
   position            : absolute;
@@ -2153,6 +2193,10 @@ div {
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
+  transition          : all 0.2s ease-in-out;
+}
+.indexnonad .mainarea .teacherspopular .teachercard4:hover {
+  transform           : scale(1.1);
 }
 .indexnonad .mainarea .teacherspopular .teachercard4 .base {
   background-color    : rgba(255,255,255,0.0);
@@ -2226,7 +2270,7 @@ div {
 }
 .indexnonad .mainarea .teacherspopular .teachercard5 {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 144px;
+  top                 : 145px;
   height              : 79px;
   width               : 328px;
   position            : absolute;
@@ -2235,6 +2279,10 @@ div {
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
+  transition          : all 0.2s ease-in-out;
+}
+.indexnonad .mainarea .teacherspopular .teachercard5:hover {
+  transform           : scale(1.1);
 }
 .indexnonad .mainarea .teacherspopular .teachercard5 .base {
   background-color    : rgba(255,255,255,0.0);
@@ -2308,7 +2356,7 @@ div {
 }
 .indexnonad .mainarea .teacherspopular .h2 {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 0px;
+  top                 : 1px;
   height              : auto;
   width               : 100px;
   position            : absolute;
@@ -2340,8 +2388,8 @@ div {
 }
 .indexnonad .mainarea .recomendcontent {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 30px;
-  height              : 271px;
+  top                 : 29px;
+  height              : 273px;
   width               : 1080px;
   position            : absolute;
   margin              : 0;
@@ -2352,7 +2400,7 @@ div {
 }
 .indexnonad .mainarea .recomendcontent .contentcard {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 44px;
+  top                 : 45px;
   height              : 234px;
   width               : 328px;
   position            : absolute;
@@ -2361,6 +2409,10 @@ div {
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
+  transition          : all 0.2s ease-in-out;
+}
+.indexnonad .mainarea .recomendcontent .contentcard:hover {
+  transform           : scale(1.1);
 }
 .indexnonad .mainarea .recomendcontent .contentcard .content {
   background-color    : rgba(255,255,255,0.0);
@@ -2572,7 +2624,7 @@ div {
 }
 .indexnonad .mainarea .recomendcontent .contentcard1 {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 44px;
+  top                 : 45px;
   height              : 234px;
   width               : 328px;
   position            : absolute;
@@ -2581,6 +2633,10 @@ div {
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
+  transition          : all 0.2s ease-in-out;
+}
+.indexnonad .mainarea .recomendcontent .contentcard1:hover {
+  transform           : scale(1.1);
 }
 .indexnonad .mainarea .recomendcontent .contentcard1 .content {
   background-color    : rgba(255,255,255,0.0);
@@ -2792,7 +2848,7 @@ div {
 }
 .indexnonad .mainarea .recomendcontent .contentcard2 {
   background-color    : rgba(255,255,255,0.0);
-  top                 : 44px;
+  top                 : 45px;
   height              : 234px;
   width               : 328px;
   position            : absolute;
@@ -2801,6 +2857,10 @@ div {
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
+  transition          : all 0.2s ease-in-out;
+}
+.indexnonad .mainarea .recomendcontent .contentcard2:hover {
+  transform           : scale(1.1);
 }
 .indexnonad .mainarea .recomendcontent .contentcard2 .content {
   background-color    : rgba(255,255,255,0.0);
@@ -3012,7 +3072,7 @@ div {
 }
 .indexnonad .mainarea .recomendcontent .h2 {
   background-color    : rgba(255,255,255,0.0);
-  top                 : -1px;
+  top                 : 0px;
   height              : auto;
   width               : 219px;
   position            : absolute;
@@ -3799,7 +3859,7 @@ div {
   background-color    : rgba(255,255,255,0.0);
   top                 : 25px;
   height              : 25px;
-  width               : 274px;
+  width               : 275px;
   position            : absolute;
   margin              : 0;
   left                : 594px;
@@ -3845,7 +3905,7 @@ div {
   background-color    : rgba(255,255,255,0.0);
   top                 : 0px;
   height              : 25px;
-  width               : 102px;
+  width               : 103px;
   position            : absolute;
   margin              : 0;
   left                : 172px;
@@ -3882,14 +3942,26 @@ div {
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
 }
+.indexnonad .headerindex .menus .menu2 .notification .notification1 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 8px;
+  width               : 8px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  -ms-transform       : rotate(0deg); /* IE 9 */
+  -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
+  transform           : rotate(0deg);
+}
 .indexnonad .headerindex .search {
   background-color    : rgba(255,255,255,0.0);
   top                 : 25px;
-  height              : 29px;
-  width               : 144px;
+  height              : 32px;
+  width               : 147px;
   position            : absolute;
   margin              : 0;
-  left                : 206px;
+  left                : 203px;
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
@@ -3900,6 +3972,18 @@ div {
   height              : 18px;
   width               : 18px;
   position            : absolute;
+  margin              : 0;
+  left                : 3px;
+  -ms-transform       : rotate(0deg); /* IE 9 */
+  -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
+  transform           : rotate(0deg);
+}
+.indexnonad .headerindex .search .icsearch24px .icsearch24px1 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 18px;
+  width               : 18px;
+  position            : relative;
   margin              : 0;
   left                : 0px;
   -ms-transform       : rotate(0deg); /* IE 9 */
@@ -3913,7 +3997,7 @@ div {
   width               : auto;
   position            : absolute;
   margin              : 0;
-  left                : 39px;
+  left                : 42px;
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
@@ -3935,6 +4019,18 @@ div {
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
 }
+.indexnonad .headerindex .notifications .notifications1 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 20px;
+  width               : 16px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  -ms-transform       : rotate(0deg); /* IE 9 */
+  -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
+  transform           : rotate(0deg);
+}
 .indexnonad .headerindex .icexpandmore24px {
   background-color    : rgba(255,255,255,0.0);
   top                 : 41px;
@@ -3943,6 +4039,18 @@ div {
   position            : absolute;
   margin              : 0;
   left                : 1369px;
+  -ms-transform       : rotate(0deg); /* IE 9 */
+  -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
+  transform           : rotate(0deg);
+}
+.indexnonad .headerindex .icexpandmore24px .icexpandmore24px1 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 8px;
+  width               : 12px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
@@ -4022,6 +4130,18 @@ div {
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
 }
+.indexnonad .headerindex .btnupload .icbackup24px .icbackup24px1 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 14px;
+  width               : 20px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  -ms-transform       : rotate(0deg); /* IE 9 */
+  -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
+  transform           : rotate(0deg);
+}
 .indexnonad .headerindex .btnupload .text {
   background-color    : rgba(255,255,255,0.0);
   top                 : 13px;
@@ -4059,6 +4179,18 @@ div {
   position            : absolute;
   margin              : 0;
   left                : 36px;
+  -ms-transform       : rotate(0deg); /* IE 9 */
+  -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
+  transform           : rotate(0deg);
+}
+.indexnonad .headerindex .icmenu24px .icmenu24px1 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 12px;
+  width               : 18px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
   -ms-transform       : rotate(0deg); /* IE 9 */
   -webkit-transform   : rotate(0deg); /* Chrome, Safari, Opera */
   transform           : rotate(0deg);
