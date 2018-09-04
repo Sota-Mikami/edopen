@@ -24,12 +24,18 @@ class ContentRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            // 'teaching_material'=>'required | file | mimes:pdf,doc,ppt',
+
+        $rules = [
             'title'=>'required',
             'detail'=>'required',
             'price'=>'required|integer',
         ];
+
+        if ($this->all()['action']==='confirm') {
+            $rules['teaching_material']  = 'required | file | mimes:pdf,doc,ppt';
+        }
+
+        return $rules;
     }
 
     public function messages(){
@@ -38,9 +44,9 @@ class ContentRequest extends FormRequest
             'detail.required'=>'教材の詳細説明は必ず入力してください。',
             'price.required'=>'販売価格は必ず入力してください。',
             'price.integer'=>'販売価格を数字で入力してください。',
-            // 'teaching_material.file' =>'ファイルをアップロードしてください。',
-            // 'teaching_material.mimes'=>'指定された拡張子（ PDF , Word , PowerPoint ）ではありません。',
-            // 'teaching_material.required' =>'教材コンテンツをアップロードしてください。',
+            'teaching_material.file' =>'ファイルをアップロードしてください。',
+            'teaching_material.mimes'=>'指定された拡張子（ PDF , Word , PowerPoint ）ではありません。',
+            'teaching_material.required' =>'教材コンテンツをアップロードしてください。',
         ];
     }
 }

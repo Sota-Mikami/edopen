@@ -22,6 +22,8 @@
 <table>
     <form action="/contents/confirm" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
+        {{-- バリデーションで使用 --}}
+        <input type="hidden" name="action" value="confirm">
         @if ($errors->has('files[][img]'))
             <tr>
                 <th>ERROR</th><td>{{ $errors->first('files[][img]') }}</td>

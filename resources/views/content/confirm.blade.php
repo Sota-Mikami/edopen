@@ -7,6 +7,7 @@
 @if (session()->exists('content'))
     @php
         $content = session()->get('content');
+        // unset($content)
     @endphp
 @endif
 
@@ -37,6 +38,8 @@
 
 <form action="/contents/store" method="post">
     {{ csrf_field() }}
+    {{-- バリデーションで使用 --}}
+    <input type="hidden" name="action" value="store">
     <input type="hidden" name="title" value="{{ $content['title'] }}">
     <input type="hidden" name="detail" value="{{ $content['detail'] }}">
     <input type="hidden" name="price" value="{{ $content['price'] }}">
