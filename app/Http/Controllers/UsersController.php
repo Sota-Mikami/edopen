@@ -165,7 +165,8 @@ class UsersController extends Controller
 
     public function getLogout(){
         Auth::logout();//ログアウト
-
+        //TODO:確認
+        $request->session()->flush();
         return redirect('/');
     }
 

@@ -61,7 +61,7 @@
     <input type="submit" value="購入する">
 </form>
 
-<a href="/index">もどる</a>
+<a href="/">もどる</a>
 
 
 @endsection
