@@ -45,5 +45,5 @@ Route::match(['GET','POST'],'/contents/confirm','ContentsController@confirm')->m
 Route::post('/contents/store','ContentsController@store')->middleware('auth');
 Route::get('/contents/cancel','ContentsController@cancel')->middleware('auth');
 
-Route::get('/content/show','ContentsController@show')->middleware('auth');
+Route::get('/content/show','ContentsController@show');
 Route::post('/content/download','ContentsController@download')->middleware('auth');
