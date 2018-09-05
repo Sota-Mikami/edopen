@@ -24,7 +24,6 @@ class ContentRequest extends FormRequest
      */
     public function rules()
     {
-
         $rules = [
             'title'=>'required',
             'detail'=>'required',

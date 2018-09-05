@@ -51,18 +51,15 @@ class UsersController extends Controller
         $user = new User;
         $user->name = $localpart;
         $user->email = $request->email;
-        //ハッシュ化し、DBに反映
         $user->password = Hash::make($request->password);
-
-
-
         $user->save();
 
-        info('user : '.$user);
         if (Auth::attempt(['email'=>$request->email, 'password'=>$request->password])) {
             return redirect('/');
         }
     }
+
+
 
     /**
      * Display the specified resource.
@@ -81,14 +78,10 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function edit($id)
+
     public function edit()
     {
-        //（疑問）User_idを取得する場合は、『編集フォーム』から取得した方が良いのか、それとも、ログインユーザーのIDをそのまま取得した方がいいのか。
-        // info('ID : '.Auth::user()->id);
         $user = User::find(Auth::user()->id);
-        // Log::debug($user);
-        // info('ユーザー情報 : '.$user);
 
         return view('user.edit',['user'=>$user]);
     }
@@ -103,16 +96,9 @@ class UsersController extends Controller
     //分からない点：下記にUserRequestを使用した場合に、updateメソッドの処理が実行されない
     public function update(UserRequest $request)
     {
-        // dd($request);
+
         // 認証済みのユーザーのみ、ユーザー情報をログインできるようにする
         $user = User::find(Auth::user()->id);
-
-        // //バリデータ
-        // $rules = [
-        //     'email'=>'email | unique:users,email,'.$user->email,
-        //     'password' =>'required'
-        // ];
-
 
         $form = $request->all();
         unset($form['_token'],$form['profile_img']);
@@ -123,8 +109,6 @@ class UsersController extends Controller
 
         $user->save();
 
-        info($user);
-        // GET
         return view('user.edit',['user'=>$user]);
     }
 
@@ -160,13 +144,13 @@ class UsersController extends Controller
             return redirect('/');
         }
 
-        return view('users.login', ['message'=>'ログインに失敗しました。']);
+        return view('user.login', ['message'=>'ログインに失敗しました。']);
     }
 
     public function getLogout(){
         Auth::logout();//ログアウト
         //TODO:確認
-        $request->session()->flush();
+        // $request->session()->flush();
         return redirect('/');
     }
 
