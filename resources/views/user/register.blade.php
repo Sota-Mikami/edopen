@@ -29,6 +29,7 @@
     </form>
 </table>
 
-<a href="/users/login">ログイン</a>
+<a href="/users/login">ログイン</a><br>
+<a href="/">ホーム画面へ</a>
 
 @endsection

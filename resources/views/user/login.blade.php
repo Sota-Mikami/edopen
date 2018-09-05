@@ -17,11 +17,12 @@
             <th>password :</th><td><input type="password" name="password" ></td>
         </tr>
         <tr>
-            <th></th><td><input type="submit" value="send" ></td>
+            <th></th><td><input type="submit" value="ログイン" ></td>
         </tr>
     </form>
 </table>
 
-<a href="/users/sign_up">新規登録</a>
+<a href="/users/sign_up">新規登録</a><br>
+<a href="/">ホーム画面へ</a>
 
 @endsection
