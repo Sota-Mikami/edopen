@@ -2,14 +2,32 @@
 <html>
 <head>
     <title>@yield('title')</title>
-    <style>
-        body{font-size: 16pt; color:#999; margin:5px;}
-        h1 {font-size: 50pt; text-align: right; color: #f6f6f6;
-            margin: -20px 0px -30px 0px; letter-spacing: -4px;}
-        ul {font-size: 12pt;}
-        hr {margin: 25px 100px; border-top: 1px dash #ddd ;}
-        .content {margin:10px;}
+    <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <link rel="stylesheet" href="{!! asset('/css/custom.css') !!}">
+    <link rel="stylesheet" href="{!! asset('/css/dropzone/dropzone.min.css') !!}" type="text/css">
+    <link rel="stylesheet" href="{!! asset('/css/bootstrap.min.css') !!}" type="text/css">
+
+
+    <script type="text/javascript" src="{!! asset('/js/dropzone/dropzone.min.js') !!}"></script>
+    {{-- <script type="text/javascript" src="{!! asset('/js/dropzone/dropzone-custom.js') !!}"></script> --}}
+    <script type="text/javascript" src="{!! asset('/js/jquery-3.3.1.slim.min.js') !!}"></script>
+    <script type="text/javascript" src="{!! asset('/js/jquery-3.3.1.min.js') !!}"></script>
+    <script type="text/javascript" src="{!! asset('/js/jquery.validate.min.js') !!}"></script>
+    {{-- <script type="text/javascript" src="{!! asset('/js/popper.js') !!}"></script> --}}
+    <script type="text/javascript" src="{!! asset('/js/bootstrap.min.js') !!}"></script>
+     <script type="text/javascript src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
+
+
+    <style>
+        .uploadBox {
+            border: 1px solid black;
+            width: 100%;
+            height: 110px;
+        }
     </style>
 </head>
 

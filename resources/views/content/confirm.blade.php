@@ -11,8 +11,18 @@
     @endphp
 @endif
 
+<tr>
+    <th>教材イメージ</th>
+    <td>
+        @foreach ($content->images as $image)
+            <img src="{{ url('/content/content_image',$image->id) }}" alt="">
+        @endforeach
+    </td>
+</tr>
 
-@foreach ($content['images'] as $index => $e)
+
+
+{{-- @foreach ($content['images'] as $index => $e)
     @if (!empty($e))
         <tr>
             <th>教材イメージ {{ $index +1}}</th>
@@ -21,7 +31,7 @@
             </td>
         </tr>
     @endif
-@endforeach
+@endforeach --}}
     <tr>
         <th>教材名</th><td>{{ $content['title'] }}</td>
     </tr>
@@ -36,9 +46,8 @@
     </tr>
 </table>
 
-<form action="/contents/store" method="post">
+{{-- <form action="/contents/store" method="post">
     {{ csrf_field() }}
-    {{-- バリデーションで使用 --}}
     <input type="hidden" name="action" value="store">
     <input type="hidden" name="title" value="{{ $content['title'] }}">
     <input type="hidden" name="detail" value="{{ $content['detail'] }}">
@@ -51,7 +60,7 @@
     <input type="hidden" name="teaching_material" value="{{ $content['teaching_material'] }}">
     <input type="submit" value="登録する">
     <a href="/contents/cancel">更新せずに戻る</a>
-</form>
+</form> --}}
 
 
 
