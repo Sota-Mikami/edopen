@@ -38,11 +38,19 @@ class ContentsController extends Controller
     }
 
 
+    public function confirm()
+    {
+        return view('content.confirm');
+    }
+
 
     // public function confirm(ContentRequest $request){
-    public function confirm(Request $request ){
-        Log::debug($request);
-        return redirect('/');
+    public function postConfirm(Request $request ){
+
+
+        // Log::debug($request);
+        // Log::debug($request->file());
+        // return redirect('/');
 
        //  $validator = \Validator::make($request->all(), [
        //      'title'=>'required',
@@ -62,10 +70,6 @@ class ContentsController extends Controller
         // dd('duccess');
         // dd("request");
 
-
-
-
-
         // $file = $request->file('file');
         // $image = new ContentImg;
         // $image->content_id = $content->id;
@@ -75,47 +79,39 @@ class ContentsController extends Controller
         // $image->storeImage($file); //アップロードしたファイルを移動
 
 
+        $files=[];//教材イメージ用の配列
+        $teaching_material = '';//教材コンテンツ
+
+        if (!empty($request->file()['file'])) {
+            $i = 0 ;
+            foreach ($request->file('file') as $img) {
+
+                //ファイルを一時保存ディレクトリへ保存
+                $files[$i] = $img->store('content_images/temp','public');
+                $i++;
+            }
+        }
+
+        if (!empty($request->file()['teaching_material'])) {
+            $teaching_material = $request->file('teaching_material')->store('teaching_materials/temp','public');
+        }
+
+        Log::debug("=================================");
+        Log::debug($request);
+
+        $contents_info = [
+            'title' => $request['title'],
+            'detail'=>$request['detail'],
+            'price' =>$request['price'],
+            'images'=>$files,
+            'teaching_material'=>$teaching_material,
+        ];
 
 
+        $request->session()->put('content',$contents_info);
+        //セッションに保存
+        session()->get('content');
 
-
-
-
-
-        // $files=[];//教材イメージ用の配列
-        // $teaching_material = '';//教材コンテンツ
-        //
-        //
-        // if (!empty($request->file()['files'])) {
-        //     $i = 0 ;
-        //     foreach ($request->file('files') as $index => $e) {
-        //         //画像ファイルオブジェクト取得
-        //         $img = $e['img'];
-        //
-        //         //ファイルを一時保存ディレクトリへ保存
-        //         $files[$i] = $img->store('content_images/temp','public');
-        //         $i++;
-        //     }
-        // }
-        //
-        // if (!empty($request->file()['teaching_material'])) {
-        //     $teaching_material = $request->file('teaching_material')->store('teaching_materials/temp','public');
-        // }
-        //
-        //
-        // $contents_info = [
-        //     'title' => $request->title,
-        //     'detail'=>$request->detail,
-        //     'price' =>$request->price,
-        //     'images'=>$files,
-        //     'teaching_material'=>$teaching_material,
-        // ];
-        //
-        // $request->session()->put('content',$contents_info);
-        // //セッションに保存
-        // session()->get('content');
-        //
-        // return view('content.confirm');
     }
 
 

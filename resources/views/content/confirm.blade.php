@@ -7,15 +7,15 @@
 @if (session()->exists('content'))
     @php
         $content = session()->get('content');
-        // unset($content)
     @endphp
 @endif
+
 
 <tr>
     <th>教材イメージ</th>
     <td>
-        @foreach ($content->images as $image)
-            <img src="{{ url('/content/content_image',$image->id) }}" alt="">
+        @foreach ($content['images'] as $image)
+            <img style="width:200px;" src="{!! asset('storage/'.$image) !!}" alt="教材イメージ">
         @endforeach
     </td>
 </tr>
@@ -46,21 +46,22 @@
     </tr>
 </table>
 
-{{-- <form action="/contents/store" method="post">
+<form action="/contents/store" method="post">
     {{ csrf_field() }}
     <input type="hidden" name="action" value="store">
     <input type="hidden" name="title" value="{{ $content['title'] }}">
     <input type="hidden" name="detail" value="{{ $content['detail'] }}">
     <input type="hidden" name="price" value="{{ $content['price'] }}">
-    @foreach ($content['images'] as $index => $e)
-        @if (!empty($e))
-            <input type="hidden" name="images[][img]" value="{{ $e }}">
+    @foreach ($content['images'] as $image)
+        @if (!empty($image))
+            <input type="hidden" name="images[][img]" value="{{ $image }}">
         @endif
     @endforeach
+
     <input type="hidden" name="teaching_material" value="{{ $content['teaching_material'] }}">
     <input type="submit" value="登録する">
     <a href="/contents/cancel">更新せずに戻る</a>
-</form> --}}
+</form>
 
 
 

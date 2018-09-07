@@ -31,6 +31,7 @@ init: function() {
     });
     this.on("successmultiple", function(files, response) {
         console.log('success');
+        window.location.href = "/contents/confirm";
       // Gets triggered when the files have successfully been sent.
       // Redirect user or notify of success.
     });

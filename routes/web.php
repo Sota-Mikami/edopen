@@ -40,7 +40,8 @@ Route::post('user/edit','UsersController@update')->middleware('auth');
 Route::get('/contents/create','ContentsController@create')->middleware('auth');
 Route::post('/contents/create','ContentsController@store')->middleware('auth');
 
-Route::match(['GET','POST'],'/contents/confirm','ContentsController@confirm')->middleware('auth');
+Route::get('/contents/confirm','ContentsController@confirm')->middleware('auth');
+Route::post('/contents/confirm','ContentsController@postConfirm')->middleware('auth');
 
 Route::post('/contents/store','ContentsController@store')->middleware('auth');
 Route::get('/contents/cancel','ContentsController@cancel')->middleware('auth');
