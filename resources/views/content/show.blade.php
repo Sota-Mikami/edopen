@@ -8,37 +8,15 @@
 
 @section('content')
 <table>
-    @if ($content_imgs->img1)
-        <tr>
-            <th>画像1</th>
-            <td>
-                <img style="width:200px;" src="{!! asset('storage/content_images/'.$content->id.'/'.$content_imgs->img1) !!}" alt="教材イメージ">
-            </td>
-        </tr>
-    @endif
-    @if ($content_imgs->img2)
-        <tr>
-            <th>画像2</th>
-            <td>
-                <img style="width:200px;" src="{!! asset('storage/content_images/'.$content->id.'/'.$content_imgs->img2) !!}" alt="教材イメージ">
-            </td>
-        </tr>
-    @endif
-    @if ($content_imgs->img3)
-        <tr>
-            <th>画像3</th>
-            <td>
-                <img style="width:200px;" src="{!! asset('storage/content_images/'.$content->id.'/'.$content_imgs->img3) !!}" alt="教材イメージ">
-            </td>
-        </tr>
-    @endif
-    @if ($content_imgs->img4)
-        <tr>
-            <th>画像4</th>
-            <td>
-                <img style="width:200px;" src="{!! asset('storage/content_images/'.$content->id.'/'.$content_imgs->img4) !!}" alt="教材イメージ">
-            </td>
-        </tr>
+    @if ($content_imgs)
+        @foreach ($content_imgs as $index => $img)
+            <tr>
+                <th>画像{{ $index+1 }}</th>
+                <td>
+                    <img style="width:200px;" src="{!! asset('storage/content_images/'.$content->id.'/'.$img->img) !!}" alt="教材イメージ">
+                </td>
+            </tr>
+        @endforeach
     @endif
     <tr>
         <th>タイトル</th><td>{{ $content->title }}</td>

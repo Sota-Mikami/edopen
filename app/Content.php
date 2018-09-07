@@ -35,6 +35,6 @@ class Content extends Model
     }
 
     public function content_imgs(){
-        return $this->hasOne('App\ContentImg');
+        return $this->hasMany('App\ContentImg');
     }
 }

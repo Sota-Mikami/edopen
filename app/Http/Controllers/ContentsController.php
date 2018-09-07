@@ -48,17 +48,12 @@ class ContentsController extends Controller
     public function postConfirm(Request $request ){
 
 
-        // Log::debug($request);
-        // Log::debug($request->file());
-        // return redirect('/');
-
        //  $validator = \Validator::make($request->all(), [
        //      'title'=>'required',
        //      'detail'=>'required',
        //      'price'=>'required|integer',
        // ]);
-       // Log::debug($validator);
-       //
+
        // if ($validator->fails())
        // {
        //     // dd('error');
@@ -69,6 +64,10 @@ class ContentsController extends Controller
 
         // dd('duccess');
         // dd("request");
+
+
+        // TODO:入力されたデータをモデルのメソッドを通して値をセットし直す
+
 
         // $file = $request->file('file');
         // $image = new ContentImg;
@@ -111,6 +110,8 @@ class ContentsController extends Controller
         $request->session()->put('content',$contents_info);
         //セッションに保存
         session()->get('content');
+
+        //// TODO: ページを離れるときにセッションを破棄する
 
     }
 
@@ -188,59 +189,68 @@ class ContentsController extends Controller
     // public function store(ContentRequest $request)
     public function store(Request $request)
     {
-        // $params =[];
-        // $teaching_material_name  = '';
-        // $user_id = Auth::user()->id; //ログインユーザー取得
+        Log::debug($request);
+
+        $params =[];
+        $teaching_material_name  = '';
+        $user_id = Auth::user()->id; //ログインユーザー取得
+
+
+        // TODO: 下記の$file_nameのキーと値の設計をみなおす
+        //  1. カラム名を変更
+        //  2, $file_name[i][name]の構造に変更
+        if (!empty($request['images'])) {
+            foreach($request['images'] as $img){
+                //ファイル名を取得する
+                $file_names[] = str_replace('content_images/temp/','',$img['img']);
+            }
+        }
+
+        if (!empty($request->teaching_material)) {
+            //教材コンテンツファイル名取得
+            $teaching_material_name = str_replace('teaching_materials/temp/','',$request->teaching_material);
+
+        }
+
+        // dd($file_names);
+
+        $content = new Content;
+        $content->title = $request['title'];
+        $content->detail = $request['detail'];
+        $content->price = $request['price'];
+        $content->user_id = $user_id;
+        $content->teaching_material = $teaching_material_name;
+        $content->save();
+        $cotent_id = $content->id;
+
+        // dd($content);
+
+        //contentテーブルに関連するcontent_imgsテーブルにimgカラムをインサート
+        // foreach ($file_names as $key => $file_name) {
         //
-        //
-        // if (!empty($request->images)) {
-        //     // content_imgsテーブルの該当するimgカラムにそれぞれセット
-        //     // （最大4つまで画像保存可  : img1 ~ img4）
-        //     foreach($request->images as $index => $img){
-        //         $index++;
-        //         $column = 'img'.$index;//カラム名
-        //         //ファイル名を取得する
-        //         $file_name = str_replace('content_images/temp/','',$img['img']);
-        //         $file_names[$column] =$file_name;
-        //
-        //     }
         // }
-        //
-        // if (!empty($request->teaching_material)) {
-        //     //教材コンテンツファイル名取得
-        //     $teaching_material_name = str_replace('teaching_materials/temp/','',$request->teaching_material);
-        //
-        //     // $this->moveFile('teaching_materials',$user_id,$teaching_material_name);
-        // }
-        //
-        //
-        // $content_info = new Content;
-        // $content_info->title = $request->title;
-        // $content_info->detail = $request->detail;
-        // $content_info->price = $request->price;
-        // $content_info->user_id = $user_id;
-        // $content_info->teaching_material = $teaching_material_name;
-        // $test1 = $content_info->save();
-        // $cotent_id = $content_info->id;
-        //
-        // //contentテーブルに関連するcontent_imgsテーブルにimgカラムをインサート
-        // $content_info->content_imgs()->create($file_names);
-        //
-        //
-        //
-        // if (!empty($request->images)) {
-        //     foreach ($file_names as $file) {
-        //         //一時保存ディレクトリから本番用ディレクトリへファイル移動
-        //         $this->moveFile('content_images',$cotent_id, $file);
-        //     }
-        // }
-        //
-        // if (!empty($request->teaching_material)) {
-        //     //一時保存ディレクトリから本番用ディレクトリへファイル移動
-        //     $this->moveFile('teaching_materials',$cotent_id, $teaching_material_name);
-        // }
-        //
-        // return view('content.complete');
+
+        $contentImg = [];
+        if (!empty($request->images)) {
+            foreach ($file_names as $index => $file_name) {
+                $index++;
+                $contentImg[]= new ContentImg([
+                                        'img'=>$file_name,
+                                        'order' =>$index,
+                                    ]);
+                //一時保存ディレクトリから本番用ディレクトリへファイル移動
+                $this->moveFile('content_images',$cotent_id, $file_name);
+            }
+        }
+        // dd($contentImg);
+        $content->content_imgs()->saveMany($contentImg);
+
+        if (!empty($request->teaching_material)) {
+            //一時保存ディレクトリから本番用ディレクトリへファイル移動
+            $this->moveFile('teaching_materials',$cotent_id, $teaching_material_name);
+        }
+
+        return view('content.complete');
 
     }
 
@@ -254,7 +264,7 @@ class ContentsController extends Controller
     {
         $content = Content::find($request->id);
         $content_imgs = Content::find($request->id)->content_imgs;
-        // dd($content_imgs->img1);
+        // dd($content_imgs[0]);
 
 
         return view('content.show',['content'=>$content,'content_imgs'=>$content_imgs]);
@@ -310,14 +320,14 @@ class ContentsController extends Controller
 
 
     // ファイルアップロードメソッド
-    public function moveFile($directory, $user_id, $file_name)
+    public function moveFile($directory, $cotent_id, $file_name)
     {
         // //本番ディレクトリが存在しない場合に、ユーザー専用のディレクトリを作成
-        if (!file_exists(storage_path() . "/app/public/".$directory."/" . $user_id)) {
-            mkdir(storage_path() . "/app/public/".$directory."/" . $user_id, 0777);
+        if (!file_exists(storage_path() . "/app/public/".$directory."/" . $cotent_id)) {
+            mkdir(storage_path() . "/app/public/".$directory."/" . $cotent_id, 0777);
         }
         // // 一時保存から本番の格納場所へ移動
-        rename(storage_path() . "/app/public/".$directory."/temp/".$file_name , storage_path() . "/app/public//".$directory."/" . $user_id .'/'.$file_name );
+        rename(storage_path() . "/app/public/".$directory."/temp/".$file_name , storage_path() . "/app/public//".$directory."/" . $cotent_id .'/'.$file_name );
     }
 
 }

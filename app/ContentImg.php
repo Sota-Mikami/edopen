@@ -11,7 +11,7 @@ class ContentImg extends Model
 
 
     protected $fillable = [
-        'content_id','mime',
+        'content_id','img','order',
     ];
 
     protected $baseUri = '';
