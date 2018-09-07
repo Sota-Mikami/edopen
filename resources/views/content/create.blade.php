@@ -45,42 +45,7 @@
             <th>教材イメージ1</th>
             <td>
                 <div class="dropzone" id="myDropzone"></div>
-                {{-- <input type="file" name="image" multiple> --}}
-            </td>
-        </tr>
-        {{-- @if ($errors->has('files[][img]'))
-            <tr>
-                <th>ERROR</th><td>{{ $errors->first('files[][img]') }}</td>
-            </tr>
-        @endif
-        <tr>
-            <th>教材イメージ2</th>
-            <td>
-                <input type="file" name="files[][img]" multiple>
-            </td>
-        </tr>
-        @if ($errors->has('files[][img]'))
-            <tr>
-                <th>ERROR</th><td>{{ $errors->first('files[][img]') }}</td>
-            </tr>
-        @endif
-        <tr>
-            <th>教材イメージ3</th>
-            <td>
-                <input type="file" name="files[][img]" multiple>
-            </td>
-        </tr>
-        @if ($errors->has('files[][img]'))
-            <tr>
-                <th>ERROR</th><td>{{ $errors->first('files[][img]') }}</td>
-            </tr>
-        @endif
-        <tr>
-            <th>教材イメージ4</th>
-            <td>
-                <input type="file" name="files[][img]" multiple>
-            </td>
-        </tr> --}}
+
         @if ($errors->has('title'))
             <tr>
                 <th>ERROR</th><td>{{ $errors->first('title') }}</td>
@@ -126,7 +91,6 @@
             </td>
         </tr>
         <tr>
-            {{-- <th></th><td><input type="submit"  value="出品する" ></td> --}}
             <th></th>
             <td>
                 <button type="submit" id="submit-all">出品する</button>

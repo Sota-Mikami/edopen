@@ -20,13 +20,18 @@ init: function() {
     //send all the form data along with the files:
     this.on("sendingmultiple", function(data, xhr, formData) {
         // Now, find your CSRF token
+        var file = $("input[name='teaching_material']").prop("files")[0];
+        console.log(file);
+        // console.log(file[0]);
+
+
         var token = $("input[name='_token']").val();
         // Append the token to the formData Dropzone is going to POST
         formData.append('_token', token);
         formData.append("title", jQuery("#title").val());
         formData.append("detail", jQuery("#detail").val());
         formData.append("price", jQuery("#price").val());
-        formData.append("teaching_material", jQuery("#teaching_material").val());
+        formData.append("teaching_material", $("input[name='teaching_material']").prop("files")[0]);
 
     });
     this.on("successmultiple", function(files, response) {
@@ -39,8 +44,6 @@ init: function() {
         console.log('error');
         // var errors = e.responseJSON;
         // alert(response);
-        console.log(files);
-        console.log(response);
         // jQuery.each(data.errors, function(key, value){
         //           			jQuery('.alert-danger').show();
         //           			jQuery('.alert-danger').append('<p>'+value+'</p>');

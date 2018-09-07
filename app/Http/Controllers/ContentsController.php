@@ -46,6 +46,8 @@ class ContentsController extends Controller
 
     // public function confirm(ContentRequest $request){
     public function postConfirm(Request $request ){
+        Log::debug($request);
+        Log::debug($request->file());
 
 
        //  $validator = \Validator::make($request->all(), [
@@ -56,26 +58,11 @@ class ContentsController extends Controller
 
        // if ($validator->fails())
        // {
-       //     // dd('error');
        //     return redirect()->back()->withErrors($validator)->withInput();
        //     // return response()->json(['errors'=>$validator->errors()->all()]);
        // }
        // return response()->json(['success'=>'Record is successfully added']);
 
-        // dd('duccess');
-        // dd("request");
-
-
-        // TODO:入力されたデータをモデルのメソッドを通して値をセットし直す
-
-
-        // $file = $request->file('file');
-        // $image = new ContentImg;
-        // $image->content_id = $content->id;
-        // $image->mime = $file->ClientMimeType();
-        //
-        // $image->save(); // content_imagesにレコードを作成
-        // $image->storeImage($file); //アップロードしたファイルを移動
 
 
         $files=[];//教材イメージ用の配列
@@ -95,9 +82,6 @@ class ContentsController extends Controller
             $teaching_material = $request->file('teaching_material')->store('teaching_materials/temp','public');
         }
 
-        Log::debug("=================================");
-        Log::debug($request);
-
         $contents_info = [
             'title' => $request['title'],
             'detail'=>$request['detail'],
@@ -105,7 +89,6 @@ class ContentsController extends Controller
             'images'=>$files,
             'teaching_material'=>$teaching_material,
         ];
-
 
         $request->session()->put('content',$contents_info);
         //セッションに保存
@@ -137,27 +120,6 @@ class ContentsController extends Controller
         @readfile($content->path);
         exit;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     // コンテンツ投稿確認画面において、
