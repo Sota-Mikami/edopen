@@ -36,6 +36,14 @@ init: function() {
     });
     this.on("errormultiple", function(files, response) {
         console.log('error');
+        // var errors = e.responseJSON;
+        // alert(response);
+        console.log(files);
+        console.log(response);
+        // jQuery.each(data.errors, function(key, value){
+        //           			jQuery('.alert-danger').show();
+        //           			jQuery('.alert-danger').append('<p>'+value+'</p>');
+        //           		});
       // Gets triggered when there was an error sending the files.
       // Maybe show form again, and notify user of error
     });

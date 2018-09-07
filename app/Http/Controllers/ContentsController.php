@@ -8,6 +8,7 @@ use App\Http\Requests\ContentRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use File;
+use Validator;
 use App\User;
 use App\Content;
 use App\ContentImg;
@@ -38,11 +39,28 @@ class ContentsController extends Controller
 
 
 
-    public function confirm(ContentRequest $request){
-    // public function confirm(Request $request ){
+    // public function confirm(ContentRequest $request){
+    public function confirm(Request $request ){
         Log::debug($request);
-        dd('duccess');
-        dd("request");
+        return redirect('/');
+
+       //  $validator = \Validator::make($request->all(), [
+       //      'title'=>'required',
+       //      'detail'=>'required',
+       //      'price'=>'required|integer',
+       // ]);
+       // Log::debug($validator);
+       //
+       // if ($validator->fails())
+       // {
+       //     // dd('error');
+       //     return redirect()->back()->withErrors($validator)->withInput();
+       //     // return response()->json(['errors'=>$validator->errors()->all()]);
+       // }
+       // return response()->json(['success'=>'Record is successfully added']);
+
+        // dd('duccess');
+        // dd("request");
 
 
 

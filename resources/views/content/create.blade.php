@@ -3,6 +3,11 @@
 @section('title','Add Content')
 
 @php
+    $err = [];
+    $err = $errors->all();
+    if (!empty( $errors->all())) {
+        dd($err);
+    }
     // 確認画面でキャンセルされた場合に初期値をセット
     $value = [
         'title' => '',
@@ -23,6 +28,7 @@
 
 <script type="text/javascript" src="{!! asset('/js/dropzone/dropzone-custom.js') !!}"></script>
 
+<div class="alert alert-danger" style="display:none"></div>
 
 <table>
     <form action="/contents/confirm" method="post" class="dropzone" id="imageUpload" enctype="multipart/form-data">
