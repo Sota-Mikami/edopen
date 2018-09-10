@@ -44,26 +44,9 @@ class ContentsController extends Controller
     }
 
 
-    // public function postConfirm(ContentRequest $request){
-    public function postConfirm(Request $request ){
+    public function postConfirm(ContentRequest $request){
 
        Log::debug($request->all());
-
-
-       $validator = Validator::make($request->all(),[
-           'title'=>'required',
-           'detail'=>'required',
-           'price'=>'required|integer',
-       ]);
-       // Log::debug($validator);
-       Log::debug($validator->fails());
-        if ($validator->fails()) {
-            return redirect('/contents/create')
-                        ->withErrors($validator)
-                        ->withInput();
-        }
-
-
 
         $files=[];//教材イメージ用の配列
         $teaching_material = '';//教材コンテンツ
@@ -153,6 +136,19 @@ class ContentsController extends Controller
     {
         session()->forget('content');
         Log::debug($request);
+
+
+
+
+
+
+
+
+
+
+
+
+        exit;
 
         $params =[];
         $teaching_material_name  = '';

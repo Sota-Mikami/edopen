@@ -32,6 +32,7 @@ class ContentRequest extends FormRequest
         ];
 
         if ($this->all()['action']==='confirm') {
+            $rules['file.*']  = ' mimes:jpg,png,jpeg, gif | image';
             $rules['teaching_material']  = 'required | file | mimes:pdf,doc,ppt';
         }
 
@@ -44,19 +45,12 @@ class ContentRequest extends FormRequest
             'detail.required'=>'教材の詳細説明は必ず入力してください。',
             'price.required'=>'販売価格は必ず入力してください。',
             'price.integer'=>'販売価格を数字で入力してください。',
+            'file.*.image'=>'画像ファイルをアップロードしてください。',
+            'file.*.mimes'=>'指定された拡張子（ jpg , png , jpeg,gif ）ではありません。',
             'teaching_material.file' =>'ファイルをアップロードしてください。',
             'teaching_material.mimes'=>'指定された拡張子（ PDF , Word , PowerPoint ）ではありません。',
             'teaching_material.required' =>'教材コンテンツをアップロードしてください。',
         ];
     }
 
-
-    public function response(array $errors){
-        if ($this->ajax() || $this->wantsJson()) {
-            # ここでいじれる
-            return new JsonResponse(['message' => 'じゆうじざい！','errors'=>$errors], 422);
-        }
-
-        parent::response($errors);
-    }
 }

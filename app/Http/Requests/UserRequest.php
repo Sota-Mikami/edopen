@@ -27,18 +27,8 @@ class UserRequest extends FormRequest
 
         if ($this->id) {
             info("update");
-            $rules['email'] = 'email | unique:users,email,'.$this->email.',email';
-
-            // try {
-            //     return $rules;
-            // } catch (\Exception $e) {
-            //     $errorCode = $e->errorInfo[1];
-            //     if($errorCode == 1062) //重複エラーをここでキャッチ
-            //       {
-            //         return back()->withInput()->withErrors(['email' => "入力されたメールアドレスはすでに使用されています。"]);
-            //       }
-            //
-            // }
+            //変更前のメールアドレスをバリデーションから外す
+            $rules['email'] = 'email | uniqueEmail';
 
         }else{
             info("new");
@@ -50,17 +40,12 @@ class UserRequest extends FormRequest
 
         return $rules;
 
-        // return [
-        //     'email'=>'email | '.$unique,
-        //     'password' =>'required',
-        //      // 'files.*.photo' => 'image|mimes:jpeg,bmp,png',
-        // ];
     }
 
     public function messages(){
         return  [
             'email.email' =>'メールアドレスが必要です。',
-            'email.unique'=>'入力されたメールアドレスはすでに使用されています。',
+            'email.unique_email'=>'入力されたメールアドレスは既に使用されています。',
             'password.required' => 'パスワードは必ず入力してください。',
         ];
     }

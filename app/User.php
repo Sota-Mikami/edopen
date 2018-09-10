@@ -28,6 +28,13 @@ class User extends Authenticatable
     ];
 
 
+    public function existEmail($email){
+        $user = User::where('email',$email)->get();
+
+
+    }
+
+
     public function contents(){
         return $this->hasMany('App\Content');
     }

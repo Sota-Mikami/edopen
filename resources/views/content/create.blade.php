@@ -6,7 +6,7 @@
     $err = [];
     $err = $errors->all();
     if (!empty( $errors->all())) {
-        // dd($err);
+        // dd($errors);
     }
     // 確認画面でキャンセルされた場合に初期値をセット
     $value = [
@@ -38,52 +38,52 @@
 
 
 
-        @if ($errors->has('image'))
+        @if ($errors->has('file.0'))
             <tr>
-                <th>ERROR</th><td>{{ $errors->first('image') }}</td>
+                <th>ERROR</th><td>{{ $errors->first('file.0') }}</td>
             </tr>
         @endif
         <tr>
             <th>教材イメージ1</th>
             <td>
-                <input type="file" name="file[]">
+                <input type="file" name="file[0]">
                 {{-- （COLD中）画像アップロードのjquery --}}
                 {{-- <div class="dropzone" id="myDropzone"></div> --}}
             </td>
         </tr>
-        @if ($errors->has('image'))
+        @if ($errors->has('file.1'))
             <tr>
-                <th>ERROR</th><td>{{ $errors->first('image') }}</td>
+                <th>ERROR</th><td>{{ $errors->first('file.1') }}</td>
             </tr>
         @endif
         <tr>
             <th>教材イメージ2</th>
             <td>
-                <input type="file" name="file[]">
+                <input type="file" name="file[1]">
             </td>
         </tr>
 
-        @if ($errors->has('image'))
+        @if ($errors->has('file.2'))
             <tr>
-                <th>ERROR</th><td>{{ $errors->first('image') }}</td>
+                <th>ERROR</th><td>{{ $errors->first('file.2') }}</td>
             </tr>
         @endif
         <tr>
             <th>教材イメージ3</th>
             <td>
-                <input type="file" name="file[]">
+                <input type="file" name="file[2]">
             </td>
         </tr>
 
-        @if ($errors->has('image'))
+        @if ($errors->has('file.3'))
             <tr>
-                <th>ERROR</th><td>{{ $errors->first('image') }}</td>
+                <th>ERROR</th><td>{{ $errors->first('file.3') }}</td>
             </tr>
         @endif
         <tr>
             <th>教材イメージ4</th>
             <td>
-                <input type="file" name="file[]">
+                <input type="file" name="file[3]">
             </td>
         </tr>
 
@@ -153,6 +153,5 @@
 
 </table>
 <a href="/">もどる</a>
-{{-- <script type="text/javascript" src="{!! asset('/js/jquery-3.3.1.min.js') !!}"></script> --}}
 
 @endsection
