@@ -24,6 +24,7 @@ class ContentRequest extends FormRequest
      */
     public function rules()
     {
+        // $rules = [];
         $rules = [
             'title'=>'required',
             'detail'=>'required',
@@ -47,5 +48,15 @@ class ContentRequest extends FormRequest
             'teaching_material.mimes'=>'指定された拡張子（ PDF , Word , PowerPoint ）ではありません。',
             'teaching_material.required' =>'教材コンテンツをアップロードしてください。',
         ];
+    }
+
+
+    public function response(array $errors){
+        if ($this->ajax() || $this->wantsJson()) {
+            # ここでいじれる
+            return new JsonResponse(['message' => 'じゆうじざい！','errors'=>$errors], 422);
+        }
+
+        parent::response($errors);
     }
 }

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{!! asset('/css/bootstrap.min.css') !!}" type="text/css">
 
 
+
     <script type="text/javascript" src="{!! asset('/js/dropzone/dropzone.min.js') !!}"></script>
     {{-- <script type="text/javascript" src="{!! asset('/js/dropzone/dropzone-custom.js') !!}"></script> --}}
     <script type="text/javascript" src="{!! asset('/js/jquery-3.3.1.slim.min.js') !!}"></script>
@@ -18,7 +19,8 @@
     <script type="text/javascript" src="{!! asset('/js/jquery.validate.min.js') !!}"></script>
     {{-- <script type="text/javascript" src="{!! asset('/js/popper.js') !!}"></script> --}}
     <script type="text/javascript" src="{!! asset('/js/bootstrap.min.js') !!}"></script>
-     <script type="text/javascript src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
+     {{-- <script type="text/javascript src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> --}}
 
 
 

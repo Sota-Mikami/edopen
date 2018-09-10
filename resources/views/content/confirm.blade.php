@@ -8,6 +8,12 @@
     @php
         $content = session()->get('content');
     @endphp
+@else
+    @php
+        redirect('/contents/create');
+        // dd('test');
+        exit;
+    @endphp
 @endif
 
 
@@ -19,19 +25,6 @@
         @endforeach
     </td>
 </tr>
-
-
-
-{{-- @foreach ($content['images'] as $index => $e)
-    @if (!empty($e))
-        <tr>
-            <th>教材イメージ {{ $index +1}}</th>
-            <td>
-                <img style="width:200px;" src="{!! asset('storage/'.$e) !!}" alt="ユーザー画像">
-            </td>
-        </tr>
-    @endif
-@endforeach --}}
     <tr>
         <th>教材名</th><td>{{ $content['title'] }}</td>
     </tr>
@@ -62,8 +55,6 @@
     <input type="submit" value="登録する">
     <a href="/contents/cancel">更新せずに戻る</a>
 </form>
-
-
 
 
 @endsection

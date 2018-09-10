@@ -6,7 +6,7 @@
     $err = [];
     $err = $errors->all();
     if (!empty( $errors->all())) {
-        dd($err);
+        // dd($err);
     }
     // 確認画面でキャンセルされた場合に初期値をセット
     $value = [
@@ -19,16 +19,15 @@
     if (!empty($input_session['_old_input'])) {
         $value = $input_session['_old_input'];
     }
-
+    session()->forget('content');
 
 @endphp
 
 @section('content')
 
-
+{{-- （COLD中）画像アップロードのjquery --}}
 <script type="text/javascript" src="{!! asset('/js/dropzone/dropzone-custom.js') !!}"></script>
 
-<div class="alert alert-danger" style="display:none"></div>
 
 <table>
     <form action="/contents/confirm" method="post" class="dropzone" id="imageUpload" enctype="multipart/form-data">
@@ -44,8 +43,10 @@
         <tr>
             <th>教材イメージ1</th>
             <td>
+                {{-- <input type="file" name="" value=""> --}}
+                {{-- （COLD中）画像アップロードのjquery --}}
                 <div class="dropzone" id="myDropzone"></div>
-
+            </td>
         @if ($errors->has('title'))
             <tr>
                 <th>ERROR</th><td>{{ $errors->first('title') }}</td>
@@ -54,7 +55,7 @@
         <tr>
             <th>教材名</th>
             <td>
-                <input type="text" id="title" name="title" value="{{ $value['title'] }}">
+                <input type="text" id="title" name="title" value="{{ $value['title'] }}" >
             </td>
         </tr>
         @if ($errors->has('detail'))
@@ -93,14 +94,14 @@
         <tr>
             <th></th>
             <td>
-                <button type="submit" id="submit-all">出品する</button>
-                {{-- <button type="submit" id="submit-all"> upload </button> --}}
+                <input type="submit" id="submit-all" value="出品する">
+                {{-- <button type="submit" id="submit-all">出品する</button> --}}
             </td>
         </tr>
     </form>
 
 </table>
 <a href="/">もどる</a>
-<script type="text/javascript" src="{!! asset('/js/jquery-3.3.1.min.js') !!}"></script>
+{{-- <script type="text/javascript" src="{!! asset('/js/jquery-3.3.1.min.js') !!}"></script> --}}
 
 @endsection

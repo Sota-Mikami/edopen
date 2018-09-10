@@ -44,24 +44,24 @@ class ContentsController extends Controller
     }
 
 
-    // public function confirm(ContentRequest $request){
+    // public function postConfirm(ContentRequest $request){
     public function postConfirm(Request $request ){
-        Log::debug($request);
-        Log::debug($request->file());
+
+       Log::debug($request->all());
 
 
-       //  $validator = \Validator::make($request->all(), [
-       //      'title'=>'required',
-       //      'detail'=>'required',
-       //      'price'=>'required|integer',
-       // ]);
-
-       // if ($validator->fails())
-       // {
-       //     return redirect()->back()->withErrors($validator)->withInput();
-       //     // return response()->json(['errors'=>$validator->errors()->all()]);
-       // }
-       // return response()->json(['success'=>'Record is successfully added']);
+       $validator = Validator::make($request->all(),[
+           'title'=>'required',
+           'detail'=>'required',
+           'price'=>'required|integer',
+       ]);
+       // Log::debug($validator);
+       Log::debug($validator->fails());
+        if ($validator->fails()) {
+            return redirect('/contents/create')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
 
 
 
@@ -92,7 +92,7 @@ class ContentsController extends Controller
 
         $request->session()->put('content',$contents_info);
         //セッションに保存
-        session()->get('content');
+        // session()->get('content');
 
         //// TODO: ページを離れるときにセッションを破棄する
 
@@ -151,6 +151,7 @@ class ContentsController extends Controller
     // public function store(ContentRequest $request)
     public function store(Request $request)
     {
+        session()->forget('content');
         Log::debug($request);
 
         $params =[];
