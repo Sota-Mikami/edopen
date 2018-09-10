@@ -95,7 +95,7 @@ class ContentsController extends Controller
         // session()->get('content');
 
         //// TODO: ページを離れるときにセッションを破棄する
-
+        return view('content.confirm');
     }
 
 

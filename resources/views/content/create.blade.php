@@ -26,7 +26,7 @@
 @section('content')
 
 {{-- （COLD中）画像アップロードのjquery --}}
-<script type="text/javascript" src="{!! asset('/js/dropzone/dropzone-custom.js') !!}"></script>
+{{-- <script type="text/javascript" src="{!! asset('/js/dropzone/dropzone-custom.js') !!}"></script> --}}
 
 
 <table>
@@ -35,6 +35,9 @@
 
         {{-- バリデーションで使用 --}}
         <input type="hidden" name="action" value="confirm">
+
+
+
         @if ($errors->has('image'))
             <tr>
                 <th>ERROR</th><td>{{ $errors->first('image') }}</td>
@@ -43,10 +46,58 @@
         <tr>
             <th>教材イメージ1</th>
             <td>
-                {{-- <input type="file" name="" value=""> --}}
+                <input type="file" name="file[]">
                 {{-- （COLD中）画像アップロードのjquery --}}
-                <div class="dropzone" id="myDropzone"></div>
+                {{-- <div class="dropzone" id="myDropzone"></div> --}}
             </td>
+        </tr>
+        @if ($errors->has('image'))
+            <tr>
+                <th>ERROR</th><td>{{ $errors->first('image') }}</td>
+            </tr>
+        @endif
+        <tr>
+            <th>教材イメージ2</th>
+            <td>
+                <input type="file" name="file[]">
+            </td>
+        </tr>
+
+        @if ($errors->has('image'))
+            <tr>
+                <th>ERROR</th><td>{{ $errors->first('image') }}</td>
+            </tr>
+        @endif
+        <tr>
+            <th>教材イメージ3</th>
+            <td>
+                <input type="file" name="file[]">
+            </td>
+        </tr>
+
+        @if ($errors->has('image'))
+            <tr>
+                <th>ERROR</th><td>{{ $errors->first('image') }}</td>
+            </tr>
+        @endif
+        <tr>
+            <th>教材イメージ4</th>
+            <td>
+                <input type="file" name="file[]">
+            </td>
+        </tr>
+
+
+
+
+
+
+
+
+
+
+
+
         @if ($errors->has('title'))
             <tr>
                 <th>ERROR</th><td>{{ $errors->first('title') }}</td>

@@ -11,8 +11,6 @@
 @else
     @php
         redirect('/contents/create');
-        // dd('test');
-        exit;
     @endphp
 @endif
 
