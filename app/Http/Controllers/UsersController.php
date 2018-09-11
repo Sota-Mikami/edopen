@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use App\Mail\EmailVerification;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Auth\Events\Registered;
 
 class UsersController extends Controller
 {
@@ -29,7 +34,8 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('user.register');
+        // return view('user.register');
+        return view('user.pre_register');
     }
 
     /**
@@ -45,20 +51,105 @@ class UsersController extends Controller
         //例：xxx@aaa.bbbのxxxの部分
         $localpart = substr($email,0, strpos($email,"@"));
 
-        // TODO: 取得メールアドレスにメールを送信
 
-        //Modelに反映
-        $user = new User;
-        $user->name = $localpart;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
+        $user = User::create([
+            'name' =>$localpart,
+            'email'=>$email,
+            'password'=>Hash::make($request->password),
+            'email_verify_token' => base64_encode($email),
+        ]);
+        // dd($user);
 
-        if (Auth::attempt(['email'=>$request->email, 'password'=>$request->password])) {
-            return redirect('/');
+        // 指定されたメールアドレスへユーザー確認メールを送信
+        $mailer = new EmailVerification($user);
+        // dd($mailer);
+        // Mail::to($email)->send($mailer);
+        Mail::to("uv.nkmt.yii@gmail.com")->send($mailer);
+
+
+        // event(new Register($user = $this->createUser( $request->all() )));
+
+        Auth::attempt(['email'=>$request->email, 'password'=>$request->password]);
+        return view('user.registered');
+
+        // if (Auth::attempt(['email'=>$request->email, 'password'=>$request->password])) {
+        //     return redirect('/');
+        // }
+    }
+
+    // public function createUser(array $data){
+    //     $email = $data['email'];
+    //     //メールアドレスのローカルパートを取得
+    //     //例：xxx@aaa.bbbのxxxの部分
+    //     $localpart = substr($email,0, strpos($email,"@"));
+    //
+    //
+    //     $user = User::create([
+    //         'name' =>$localpart,
+    //         'email'=>$data['email'],
+    //         'password'=>Hash::make($data['password']),
+    //         'email_verify_token' => base64_encode($data['email']),
+    //     ]);
+    //
+    //     // 指定されたメールアドレスへユーザー確認メールを送信
+    //     $mailer = new EmailVerification($user);
+    //     dd($mailer);
+    //     Mail::to($user->email)->send($mailer);
+    //
+    //     return $user;
+    // }
+
+
+    public function showForm($email_token){
+        Log::debug("========showForm==========");
+        Log::debug($email_token);
+        //使用可能なトークンか
+        if (!User::where('email_verify_token' , $email_token)->exists()) {
+            Log::debug("無効なトークンです。");
+            return view('user.main.register')->with('message','無効なトークンです。');
+        }else {
+            $user = User::where('email_verify_token', $email_token)->first();
+            Log::debug($user);
+            //本登録ユーザーか
+            if ($user->status == config('const.USER_STATUS.REGISTER')) //REGISTER=1
+            {
+                Log::debug("status".$user->status);
+                Log::debug("すでに本登録されています。");
+                $user->save();
+
+                // if (Auth::attempt(['email'=>$user->email, 'password'=>Hash::make($user->password)])) {
+                //     Log::debug("ログイン成功しました");
+                //     return redirect('/');
+                // }
+                return redirect('/')->with('message','すでに本登録されています。ログインして、利用してください。');
+            }
+
+            //ユーザーステータス更新
+            $user->status = config('const.USER_STATUS.MAIL_AUTHED');
+            Log::debug("status".$user->status);
+            // $user->verify_at = Carbon::now();
+            if ($user->save()) {
+                Log::debug("ユーザーステータス更新しました");
+                return redirect('/');
+            }else {
+                Log::debug("ユーザーステータス更新に失敗しました");
+                return redirect('/');
+            }
         }
     }
 
+
+
+    public function mainRegister(Request $request){
+        $user = User::where('email_verify_token',$request->email_token)->first();
+        $user->status = config('const.USER_STATUS.REGISTER');
+        $user->save();
+
+        if (Auth::attempt(['email'=>$user->email, 'password'=>$user->password])) {
+            return redirect('/');
+        }
+
+    }
 
 
     /**
@@ -93,7 +184,6 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    //分からない点：下記にUserRequestを使用した場合に、updateメソッドの処理が実行されない
     public function update(UserRequest $request)
     {
 

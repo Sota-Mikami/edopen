@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','img', 'bio',
+        'name', 'email', 'password','img', 'bio','email_verified','email_verify_token',
     ];
 
     /**
@@ -26,13 +26,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-
-    public function existEmail($email){
-        $user = User::where('email',$email)->get();
-
-
-    }
 
 
     public function contents(){
