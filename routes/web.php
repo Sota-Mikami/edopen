@@ -56,3 +56,10 @@ Route::post('/content/download','ContentsController@download')->middleware('auth
 
 //コンテンツイメージ表示パス
 Route::get('/content/content_image/{content_image}','ContentsController@downloadImage');
+
+
+
+// ==============================
+//     【API】Stripe決済機能
+// ==============================
+Route::post('/charge','CheckoutController@charge');

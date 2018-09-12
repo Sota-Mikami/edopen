@@ -39,6 +39,21 @@
     <input type="submit" value="購入する">
 </form>
 
+{{-- stripe決済 --}}
+<form action="/charge" method="POST">
+     {{ csrf_field() }}
+    <script
+            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="pk_test_DkBhCe5j7DYIXalUiOULSwra"
+            data-amount="1999"
+            data-name="決済"
+            data-description="Stripeで決済を行います"
+            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+            data-locale="auto"
+            data-currency="usd">
+    </script>
+</form>
+
 <a href="/">もどる</a>
 
 
