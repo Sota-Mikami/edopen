@@ -10,6 +10,7 @@ use Stripe\Charge;
 class CheckoutController extends Controller
 {
     public function charge(Request $request){
+        dd($request->all());
         try {
             Stripe::setApiKey('sk_test_wuabzslGwSq91ILZojTz45HK');
 
@@ -20,6 +21,7 @@ class CheckoutController extends Controller
 
             $charge = Charge::create([
                 'customer'=>$customer->id,
+                "currency" => "jpy",
                 'amount' =>1999,
                 'currency'=>'usd',
             ]);

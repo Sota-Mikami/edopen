@@ -62,4 +62,4 @@ Route::get('/content/content_image/{content_image}','ContentsController@download
 // ==============================
 //     【API】Stripe決済機能
 // ==============================
-Route::post('/charge','CheckoutController@charge');
+Route::post('/charge','CheckoutController@charge')->name('charge');
