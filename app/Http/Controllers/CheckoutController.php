@@ -42,21 +42,16 @@ class CheckoutController extends Controller
             ]);
 
 
-            //指定された教材コンテンツダウンロード
-            $this->downloadContent($content->id, $request->file_name);
+
 
             //メールでお知らせ
             $this->EmailInformPayment($content, $user_email);
 
+            // $this->downloadContent($content->id, $request->file_name);
 
-            // $file_path = storage_path()."/app/public/teaching_materials/" . $content->id.'/'. $request->file_name;
-            //
-            // return response()->download($file_path);
-
-            Log::debug('test ::::::::::::::'.$file_path);
-
-            return redirect('/content/show?id='.$request->id);
-
+            //指定された教材コンテンツダウンロード
+            $file_path = storage_path()."/app/public/teaching_materials/" . $content->id.'/'. $request->file_name;
+            return response()->download($file_path);
 
             return redirect('/content/show?id='.$request->id);
         } catch (\Exception $ex) {
@@ -71,8 +66,9 @@ class CheckoutController extends Controller
         $file_path = storage_path()."/app/public/teaching_materials/" . $content_id.'/'. $file_name;
 
         Log::debug('fucntion::::::::::::::'.$file_path);
-
+        Log::debug(response()->download($file_path));
         return response()->download($file_path);
+
 
     }
 
