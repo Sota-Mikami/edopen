@@ -135,20 +135,6 @@ class ContentsController extends Controller
     public function store(Request $request)
     {
         session()->forget('content');
-        Log::debug($request);
-
-
-
-
-
-
-
-
-
-
-
-
-        exit;
 
         $params =[];
         $teaching_material_name  = '';
@@ -182,7 +168,6 @@ class ContentsController extends Controller
         $content->save();
         $cotent_id = $content->id;
 
-        // dd($content);
 
         //contentテーブルに関連するcontent_imgsテーブルにimgカラムをインサート
         // foreach ($file_names as $key => $file_name) {

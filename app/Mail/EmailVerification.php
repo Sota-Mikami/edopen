@@ -31,15 +31,10 @@ class EmailVerification extends Mailable
      */
     public function build()
     {
-        $test =$this
+        return $this
             ->subject('【EDOPEN】仮登録が完了しました')
             ->view('user.email.pre_register')
             ->with(['token'=>$this->user->email_verify_token,]);
 
-            // dd($test);
-
-        return $test;
-
-        // return $this->view('view.name');
     }
 }
