@@ -32,46 +32,8 @@
     </tr>
 </table>
 
-<form action="/content/download" method="post">
-    {{ csrf_field() }}
-    <input type="hidden" name="id" value="{{ $content->id }}">
-    <input type="hidden" name="file_name" value="{{ $content->teaching_material }}">
-
-
-
-
-    <input type="submit" value="購入する">
-</form>
 
 {{-- stripe決済 --}}
-{{-- <form action="/charge" method="POST">
-     {{ csrf_field() }}
-     <input type="hidden" name="id" value="{{ $content->id }}">
-     <input type="hidden" name="file_name" value="{{ $content->teaching_material }}">
-
-    <script
-            src="https://checkout.stripe.com/checkout.js"   class="stripe-button"
-            data-key="pk_test_DkBhCe5j7DYIXalUiOULSwra"
-            data-amount="{{ $content->price }}"
-            data-name="決済"
-            data-currency="JPY"
-            data-locale="ja"
-            data-label="購入する"
-            data-description="Stripeで決済を行います"
-            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-            >
-    </script>
-</form> --}}
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 
 <form action="/charge" method="post" id="payment-form">
     {{ csrf_field() }}
@@ -306,21 +268,6 @@
         width: 400px;
     }
 </style>
-
-
-
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
 
 
 <a href="/">もどる</a>

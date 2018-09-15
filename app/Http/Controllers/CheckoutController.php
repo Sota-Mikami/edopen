@@ -17,7 +17,6 @@ use App\ContentImg;
 class CheckoutController extends Controller
 {
     public function charge(Request $request){
-        // dd($request->all());
         try {
             Stripe::setApiKey('sk_test_wuabzslGwSq91ILZojTz45HK');
             $token = $request->stripeToken;
@@ -25,20 +24,16 @@ class CheckoutController extends Controller
             $user_email = Auth::user()->email;
 
 
-            // $customer = Customer::create([
-            //     'email'=>$user_email,
-            //     'source'=>$token
-            // ]);
-            // dd($customer);
-            // tok_1DALHSDXeVxkPnaSrv5P7bDF
+            $customer = Customer::create([
+                'email'=>$user_email,
+                'source'=>$token
+            ]);
 
             $charge = Charge::create([
                 "currency" => "jpy",
                 'amount' =>$request->price,
                 'description'=> 'サンプル決済',
-                'source'=>$token,
-                // 'customer'=>$customer->id,
-
+                'customer'=>$customer->id,
             ]);
 
 
