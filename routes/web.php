@@ -27,16 +27,20 @@ Route::get('/','HomeController@index');
 // ==============================
 Route::get('/users/sign_up','UsersController@create');
 Route::post('/users/sign_up','UsersController@store');
-Route::get('users/login','UsersController@getAuth');
-Route::post('users/login','UsersController@postAuth');
-Route::post('users/register/pre_check','UsersController@store')->name('register');
+Route::get('/users/login','UsersController@getAuth');
+Route::post('/users/login','UsersController@postAuth');
+Route::post('/users/register/pre_check','UsersController@store')->name('register');
+//【SNSログイン】Facebook認証
+Route::get('/users/login/facebook', 'FacebookController@redirectToFacebook');
 
 //ユーザーのメール確認
 Route::get('/register/verify/{token}','UsersController@showForm');
 
-Route::get('users/logout','UsersController@getLogout')->middleware('auth');
-Route::get('user/edit','UsersController@edit')->middleware('auth');
-Route::post('user/edit','UsersController@update')->middleware('auth');
+Route::get('/users/logout','UsersController@getLogout')->middleware('auth');
+Route::get('/user/edit','UsersController@edit')->middleware('auth');
+Route::post('/user/edit','UsersController@update')->middleware('auth');
+
+
 
 
 // ==============================

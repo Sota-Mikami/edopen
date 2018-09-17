@@ -4,6 +4,31 @@
 
 
 @section('content')
+
+
+{{-- <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '{your-app-id}',
+      cookie     : true,
+      xfbml      : true,
+      version    : '{api-version}'
+    });
+
+    FB.AppEvents.logPageView();
+
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script> --}}
+
+
 <p>{{ $message }}</p>
 
 
@@ -21,6 +46,10 @@
         </tr>
     </form>
 </table>
+
+<br>
+<a href="/users/login/facebook">Sign in with Facebook</a>
+<br>
 
 <a href="/users/sign_up">新規登録</a><br>
 <a href="/">ホーム画面へ</a>
