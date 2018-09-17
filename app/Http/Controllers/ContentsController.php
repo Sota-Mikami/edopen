@@ -46,15 +46,12 @@ class ContentsController extends Controller
 
     public function postConfirm(ContentRequest $request){
 
-       Log::debug($request->all());
-
         $files=[];//教材イメージ用の配列
         $teaching_material = '';//教材コンテンツ
 
         if (!empty($request->file()['file'])) {
             $i = 0 ;
             foreach ($request->file('file') as $img) {
-
                 //ファイルを一時保存ディレクトリへ保存
                 $files[$i] = $img->store('content_images/temp','public');
                 $i++;
@@ -65,6 +62,7 @@ class ContentsController extends Controller
             $teaching_material = $request->file('teaching_material')->store('teaching_materials/temp','public');
         }
 
+
         $contents_info = [
             'title' => $request['title'],
             'detail'=>$request['detail'],
@@ -73,11 +71,8 @@ class ContentsController extends Controller
             'teaching_material'=>$teaching_material,
         ];
 
-        $request->session()->put('content',$contents_info);
-        //セッションに保存
-        // session()->get('content');
+        $request->session()->put('content',$contents_info);//セッションに保存
 
-        //// TODO: ページを離れるときにセッションを破棄する
         return view('content.confirm');
     }
 
@@ -85,23 +80,6 @@ class ContentsController extends Controller
 
     public function getImage(Content $content){
         return view('content.confirm',compact('content'));
-
-
-    }
-
-
-    public function downloadImage(Content $content){
-        $filename = $content->filename();
-
-
-
-        //// TODO: 下記の処理の詳細を確認
-        header("Content-type: $content->mime name=$filename");
-        header("Content-Disposition: attachment; filename=$filename");
-        header("Content-Length:".@filesize($content->path));
-        header("Expire: 0");
-        @readfile($content->path);
-        exit;
     }
 
 
@@ -123,8 +101,6 @@ class ContentsController extends Controller
     }
 
 
-
-
     /**
      * Store a newly created resource in storage.
      *
@@ -140,10 +116,6 @@ class ContentsController extends Controller
         $teaching_material_name  = '';
         $user_id = Auth::user()->id; //ログインユーザー取得
 
-
-        // TODO: 下記の$file_nameのキーと値の設計をみなおす
-        //  1. カラム名を変更
-        //  2, $file_name[i][name]の構造に変更
         if (!empty($request['images'])) {
             foreach($request['images'] as $img){
                 //ファイル名を取得する
@@ -157,8 +129,6 @@ class ContentsController extends Controller
 
         }
 
-        // dd($file_names);
-
         $content = new Content;
         $content->title = $request['title'];
         $content->detail = $request['detail'];
@@ -167,12 +137,6 @@ class ContentsController extends Controller
         $content->teaching_material = $teaching_material_name;
         $content->save();
         $cotent_id = $content->id;
-
-
-        //contentテーブルに関連するcontent_imgsテーブルにimgカラムをインサート
-        // foreach ($file_names as $key => $file_name) {
-        //
-        // }
 
         $contentImg = [];
         if (!empty($request->images)) {
@@ -186,16 +150,15 @@ class ContentsController extends Controller
                 $this->moveFile('content_images',$cotent_id, $file_name);
             }
         }
-        // dd($contentImg);
+
         $content->content_imgs()->saveMany($contentImg);
 
+        //一時保存ディレクトリから本番用ディレクトリへファイル移動
         if (!empty($request->teaching_material)) {
-            //一時保存ディレクトリから本番用ディレクトリへファイル移動
             $this->moveFile('teaching_materials',$cotent_id, $teaching_material_name);
         }
 
         return view('content.complete');
-
     }
 
     /**
@@ -208,8 +171,6 @@ class ContentsController extends Controller
     {
         $content = Content::find($request->id);
         $content_imgs = Content::find($request->id)->content_imgs;
-        // dd($content_imgs[0]);
-
 
         return view('content.show',['content'=>$content,'content_imgs'=>$content_imgs]);
     }

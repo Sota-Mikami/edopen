@@ -32,4 +32,8 @@ class User extends Authenticatable
         return $this->hasMany('App\Content');
     }
 
+    public function facebook(){
+        return $this->hasOne('App\Auth\Facebook');
+    }
+
 }

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Auth\Facebook;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Socialite;
+use App\User;
 
 class FacebookController extends Controller
 {
@@ -13,46 +15,42 @@ class FacebookController extends Controller
         return Socialite::driver('facebook')->redirect();
     }
 
-    public function handleProviderCallback($provider){
+    public function handleProviderCallback(){
         try {
-            $providerUser = Socialite::driver($provider)->user();
+            $providerUser = Socialite::driver('facebook')->user();
 
-            $user = DB::table('users')->where('email', $providerUser->getEmail())->first();
+
+            $user = User::where('email',$providerUser->getEmail())->first();
+            // dd($user);
+
 
             if (is_null($user)) {
-
-                if (is_null($providerUser->getNickname())) {
-                    $providerUserNickName = $providerUser->getName();
-                }else {
-                    $providerUserNickName = $providerUser->getNickName();
-                }
-
-                $userd = User::create([
-                    'name' => $providerUserNickName,
+                $user = User::create([
+                    'name' => $providerUser->getName(),
                     'email' => $providerUser->getEmail(),
                 ]);
+            }
+            // dd($providerUser->avatar_original);
 
 
-            }else {
-                $userd = User::find( $user->id);
+            if (is_null($user->facebook()->first())) {
+                $facebook = new Facebook([
+                    'facebook_id'=>$providerUser->getId(),
+                    'facebook_name' => $providerUser->getName(),
+                    'avatar'=>$providerUser->avatar_original,
+                    'user_id'=>$user->id,
+                ]);
+                // dd($facebook);
+                $user->facebook()->save($facebook);
+                $user->save();
             }
 
-            if (is_null($userd->facebook_id)) {
-                $user->facebook_id = $providerUser->getId();
 
-                if (is_null($providerUser->getNickname()) ) {
-                    $userd->facebook_name = $providerUser->getName();
-                }else {
-                    $userd->facebook_name = $providerUser->getNickname();
-                }
-            }
-
-            $userd->save();
-
-            auth()->login($userd, true);
+            auth()->login($user, true);
             return redirect()->to('/');
 
         } catch (\Exception $e) {
+            dd($e);
             return redirect('/');
         }
 

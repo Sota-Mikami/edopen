@@ -63,7 +63,6 @@ class UsersController extends Controller
         // 指定されたメールアドレスへユーザー確認メールを送信
         $mailer = new EmailVerification($user);
         Mail::to($email)->send($mailer);
-        // Mail::to("uv.nkmt.yii@gmail.com")->send($mailer);
 
         Auth::attempt(['email'=>$request->email, 'password'=>$request->password]);
         return view('user.registered');
@@ -73,15 +72,12 @@ class UsersController extends Controller
     public function showForm($email_token){
         //使用可能なトークンか
         if (!User::where('email_verify_token' , $email_token)->exists()) {
-            Log::debug("無効なトークンです。");
             return view('user.main.register')->with('message','無効なトークンです。');
         }else {
             $user = User::where('email_verify_token', $email_token)->first();
-            Log::debug($user);
             //本登録ユーザーか
             if ($user->status == config('const.USER_STATUS.REGISTER')) //REGISTER=1
             {
-                Log::debug("すでに本登録されています。");
                 $user->save();
 
                 return redirect('/')->with('message','すでに本登録されています。ログインして、利用してください。');
@@ -91,10 +87,8 @@ class UsersController extends Controller
             $user->status = config('const.USER_STATUS.MAIL_AUTHED');
             Log::debug("status".$user->status);
             if ($user->save()) {
-                Log::debug("ユーザーステータス更新しました");
                 return redirect('/');
             }else {
-                Log::debug("ユーザーステータス更新に失敗しました");
                 return redirect('/');
             }
         }
@@ -200,14 +194,6 @@ class UsersController extends Controller
     public function uploadImg(){
         info('uploadImg');
     }
-
-
-
-
-
-
-
-
 
 
 

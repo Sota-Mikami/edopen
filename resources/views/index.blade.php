@@ -40,6 +40,7 @@
     </table>
 
 
+
     {{-- ログアウトボタン --}}
     <p><a href="users/logout">ログアウト</a></p>
 
@@ -55,7 +56,6 @@
     <p><a href="users/sign_up">新規登録</a></p>
 
 @endif
-
 
 <h3 style="margin-top:100px;">コンテンツ一覧</h3>
 

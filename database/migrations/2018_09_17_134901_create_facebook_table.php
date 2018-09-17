@@ -15,9 +15,10 @@ class CreateFacebookTable extends Migration
     {
         Schema::create('facebook', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('facebook_id');
             $table->string('facebook_name');
+            $table->string('avatar')->nullable();
             $table->integer('user_id');
-            $table->integer('avater')->nullable();
             $table->timestamps();
         });
     }

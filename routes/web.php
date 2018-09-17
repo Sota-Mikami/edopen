@@ -32,6 +32,8 @@ Route::post('/users/login','UsersController@postAuth');
 Route::post('/users/register/pre_check','UsersController@store')->name('register');
 //【SNSログイン】Facebook認証
 Route::get('/users/login/facebook', 'FacebookController@redirectToFacebook');
+Route::get('/users/login/callback','FacebookController@handleProviderCallback');
+
 
 //ユーザーのメール確認
 Route::get('/register/verify/{token}','UsersController@showForm');
