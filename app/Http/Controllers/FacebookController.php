@@ -18,10 +18,7 @@ class FacebookController extends Controller
     public function handleProviderCallback(){
         try {
             $providerUser = Socialite::driver('facebook')->user();
-
-
             $user = User::where('email',$providerUser->getEmail())->first();
-            // dd($user);
 
 
             if (is_null($user)) {
@@ -30,8 +27,6 @@ class FacebookController extends Controller
                     'email' => $providerUser->getEmail(),
                 ]);
             }
-            // dd($providerUser->avatar_original);
-
 
             if (is_null($user->facebook()->first())) {
                 $facebook = new Facebook([
@@ -44,7 +39,6 @@ class FacebookController extends Controller
                 $user->facebook()->save($facebook);
                 $user->save();
             }
-
 
             auth()->login($user, true);
             return redirect()->to('/');
