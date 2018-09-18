@@ -15,28 +15,21 @@
         'price'=>'',
     ];
     $input_session = session()->all();
-
     if (!empty($input_session['_old_input'])) {
         $value = $input_session['_old_input'];
     }
     session()->forget('content');
-
 @endphp
 
 @section('content')
-
-{{-- （COLD中）画像アップロードのjquery --}}
-{{-- <script type="text/javascript" src="{!! asset('/js/dropzone/dropzone-custom.js') !!}"></script> --}}
 
 
 <table>
     <form action="/contents/confirm" method="post" class="dropzone" id="imageUpload" enctype="multipart/form-data">
         {{ csrf_field() }}
 
-        {{-- バリデーションで使用 --}}
+        {{-- バリデーション (ContentRequest.php) で使用 --}}
         <input type="hidden" name="action" value="confirm">
-
-
 
         @if ($errors->has('file.0'))
             <tr>
@@ -47,8 +40,6 @@
             <th>教材イメージ1</th>
             <td>
                 <input type="file" name="file[0]">
-                {{-- （COLD中）画像アップロードのjquery --}}
-                {{-- <div class="dropzone" id="myDropzone"></div> --}}
             </td>
         </tr>
         @if ($errors->has('file.1'))
@@ -86,16 +77,6 @@
                 <input type="file" name="file[3]">
             </td>
         </tr>
-
-
-
-
-
-
-
-
-
-
 
 
         @if ($errors->has('title'))
@@ -146,11 +127,9 @@
             <th></th>
             <td>
                 <input type="submit" id="submit-all" value="出品する">
-                {{-- <button type="submit" id="submit-all">出品する</button> --}}
             </td>
         </tr>
     </form>
-
 </table>
 <a href="/">もどる</a>
 

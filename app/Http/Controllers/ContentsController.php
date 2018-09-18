@@ -40,7 +40,12 @@ class ContentsController extends Controller
 
     public function confirm()
     {
-        return view('content.confirm');
+        $content = [];
+        if (session()->exists('content')) {
+            $content = session()->get('content');
+        }
+
+        return view('content.confirm',['content'=>$content]);
     }
 
 
@@ -72,8 +77,10 @@ class ContentsController extends Controller
         ];
 
         $request->session()->put('content',$contents_info);//セッションに保存
-
-        return view('content.confirm');
+        $content = session()->get('content');
+        // dd($content);
+        // return view('content.confirm');
+        return view('content.confirm',['content'=>$content]);
     }
 
 

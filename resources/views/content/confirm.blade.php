@@ -3,26 +3,22 @@
 @section('title','Confirm')
 
 @section('content')
-<table>
-@if (session()->exists('content'))
-    @php
-        $content = session()->get('content');
-    @endphp
-@else
+
+@empty ($content)
     @php
         redirect('/contents/create');
     @endphp
-@endif
+@endempty
 
-
-<tr>
-    <th>教材イメージ</th>
-    <td>
-        @foreach ($content['images'] as $image)
-            <img style="width:200px;" src="{!! asset('storage/'.$image) !!}" alt="教材イメージ">
-        @endforeach
-    </td>
-</tr>
+<table>
+    <tr>
+        <th>教材イメージ</th>
+        <td>
+            @foreach ($content['images'] as $image)
+                <img style="width:200px;" src="{!! asset('storage/'.$image) !!}" alt="教材イメージ">
+            @endforeach
+        </td>
+    </tr>
     <tr>
         <th>教材名</th><td>{{ $content['title'] }}</td>
     </tr>
