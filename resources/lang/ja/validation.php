@@ -14,7 +14,7 @@ return [
     */
 
     'accepted'             => 'The :attribute must be accepted.',
-    'active_url'           => 'The :attribute is not a valid URL.',
+    'active_url'           => 'その :attribute 正しいURLではありません。',
     'after'                => 'The :attribute must be a date after :date.',
     'after_or_equal'       => 'The :attribute must be a date after or equal to :date.',
     'alpha'                => 'The :attribute may only contain letters.',
@@ -112,7 +112,7 @@ return [
     'unique'               => 'The :attribute has already been taken.',
     'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
-    "no_ctrl_chars" => ":attribute is invalid.",
+    "no_ctrl_chars" =>  ":attributeは不正な値を含んでいます。",
 
     /*
     |--------------------------------------------------------------------------

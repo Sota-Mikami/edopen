@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
@@ -144,6 +145,71 @@ class UsersController extends Controller
 
         return view('user.edit',['user'=>$user]);
     }
+
+
+    public function editEmail(){
+        $user = Auth::user();
+        return view('user.edit.email',['user'=>$user]);
+    }
+
+    public function updateEmail(Request $request){
+
+
+        //流れ
+        //1. ログインユーザーの現在のメールアドレス情報を取得
+        //2. 入力されたEmailとデータベースのEmail 情報の照合
+        $user = Auth::user();
+
+        // dd($user->password);
+        $rules = [
+            'old_email' => 'required | email | auth_email',
+            'password' => 'required | userPasswordCheck',
+            'new_email'=>'required | email | existEmail',
+        ];
+
+        $messages = [
+            'old_email.required' =>'メールアドレスを入力してください',
+            'old_email.email' =>'メールアドレスを入力してください',
+            'old_email.auth_email' =>'正しいメールアドレスではありません',
+            'old_email.exist_email'=>'既に登録されているメールアドレスへ変更しようとしています',
+            'new_email.required' =>'メールアドレスを入力してください',
+            'new_email.email' =>'メールアドレスを入力してください',
+            'new_email.exist_email'=>'既に登録されているメールアドレスへ変更しようとしています',
+            'password.required' => 'パスワードは必ず入力してください',
+            'password.user_password_check' => 'パスワードが正しくありません',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return redirect('/user/email/edit')
+                    ->withErrors($validator)
+                    ->withInput();
+        }
+
+
+
+        //3. パスワードの本人確認
+
+        //4. 『新しいメールアドレス』が『現在のメールアドレス』と同じになっていないか確認
+
+        //5. 上記（ 1 ~ 4 ）の要件を満たした場合にのみ、『新しいメールアドレス』へ本人確認メールを送信
+
+        //6. 送信メールに記載しているURLトークンを確認してもらう
+
+
+
+    }
+
+    public function editPassword(){
+        $user = Auth::user();
+        return view('user.edit.password',['user'=>$user]);
+    }
+
+    public function updatePassword(){
+
+    }
+
 
     /**
      * Remove the specified resource from storage.

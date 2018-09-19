@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Validator;
-use App\Http\Validators\EmailValidator;
+use App\Http\Validators\UserCustomValidator;
 
 class ValidationServiceProvider extends ServiceProvider
 {
@@ -17,7 +17,7 @@ class ValidationServiceProvider extends ServiceProvider
     {
         $validator = $this->app['validator'];
         $validator->resolver(function($translator, $data, $rules, $messages){
-            return new EmailValidator($translator, $data, $rules, $messages);
+            return new UserCustomValidator($translator, $data, $rules, $messages);
         });
     }
 

@@ -11,14 +11,6 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Auth::routes();
-
-// Route::get('/home', 'HomeController@index')->name('home');
-
 
 Route::get('/','HomeController@index');
 
@@ -33,6 +25,15 @@ Route::post('/users/register/pre_check','UsersController@store')->name('register
 //【SNSログイン】Facebook認証
 Route::get('/users/login/facebook', 'FacebookController@redirectToFacebook');
 Route::get('/users/login/callback','FacebookController@handleProviderCallback');
+
+//メールアドレス変更
+Route::get('/user/email/edit','UsersController@editEmail');
+Route::post('/user/email/edit','UsersController@updateEmail');
+
+//パスワード変更
+Route::get('/user/password/edit','UsersController@editPassword');
+Route::post('/user/password/edit','UsersController@updatePassword
+');
 
 
 //ユーザーのメール確認
