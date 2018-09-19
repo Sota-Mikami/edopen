@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use App\Mail\EmailVerification;
+use App\Mail\UpdateEmail;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
 
@@ -158,7 +159,10 @@ class UsersController extends Controller
         //流れ
         //1. ログインユーザーの現在のメールアドレス情報を取得
         //2. 入力されたEmailとデータベースのEmail 情報の照合
-        $user = Auth::user();
+        //3. パスワードの本人確認
+        //4. 『新しいメールアドレス』が『現在のメールアドレス』と同じになっていないか確認
+        $user = User::find(Auth::user()->id);
+
 
         // dd($user->password);
         $rules = [
@@ -188,16 +192,19 @@ class UsersController extends Controller
         }
 
 
-
-        //3. パスワードの本人確認
-
-        //4. 『新しいメールアドレス』が『現在のメールアドレス』と同じになっていないか確認
-
         //5. 上記（ 1 ~ 4 ）の要件を満たした場合にのみ、『新しいメールアドレス』へ本人確認メールを送信
+        $mailer = new UpdateEmail;
+        Mail::to($request->new_email)->send($mailer);
 
-        //6. 送信メールに記載しているURLトークンを確認してもらう
+        //6. データベースへ反映
+        $user->email = $request->new_email;
+        $user->save();
+
+        //（保留）6. 送信メールに記載しているURLトークンを確認してもらう
 
 
+        //保存成功後、topページへリダイレクト
+        return redirect('/');
 
     }
 

@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class EmailVerification extends Mailable
+class UpdateEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,10 +18,14 @@ class EmailVerification extends Mailable
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct()
     {
-        $this->user = $user;
+
     }
+    // public function __construct($user)
+    // {
+    //     $this->user = $user;
+    // }
 
     /**
      * Build the message.
@@ -31,9 +35,9 @@ class EmailVerification extends Mailable
     public function build()
     {
         return $this
-            ->subject('【EDOPEN】仮登録が完了しました')
-            ->view('user.email.pre_register')
-            ->with(['token'=>$this->user->email_verify_token,]);
+            ->subject('メールアドレス変更のお知らせ')
+            ->view('user.email.updateEmail');
+            // ->with(['token'=>$this->user->email_verify_token,]);
 
     }
 }
