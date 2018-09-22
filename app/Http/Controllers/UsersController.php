@@ -156,15 +156,13 @@ class UsersController extends Controller
     public function updateEmail(Request $request){
 
 
-        //流れ
+        //バリデーション
         //1. ログインユーザーの現在のメールアドレス情報を取得
         //2. 入力されたEmailとデータベースのEmail 情報の照合
         //3. パスワードの本人確認
         //4. 『新しいメールアドレス』が『現在のメールアドレス』と同じになっていないか確認
         $user = User::find(Auth::user()->id);
 
-
-        // dd($user->password);
         $rules = [
             'old_email' => 'required | email | auth_email',
             'password' => 'required | userPasswordCheck',
@@ -202,18 +200,49 @@ class UsersController extends Controller
 
         //（保留）6. 送信メールに記載しているURLトークンを確認してもらう
 
-
         //保存成功後、topページへリダイレクト
         return redirect('/');
 
     }
 
+    //パスワードアップデート処理
     public function editPassword(){
         $user = Auth::user();
         return view('user.edit.password',['user'=>$user]);
     }
 
-    public function updatePassword(){
+    public function updatePassword(Request $request){
+
+        //パスワードにセットするバリデーションについて
+        //1. 必須
+        //2. 6文字未満
+        //3. 確認項目と同じ文字列がセットされているのか
+        //4. old_passwordと同じ値の場合に弾く
+
+        $rules = [
+                'old_password' =>'required | userPasswordCheck',
+                'email' =>'required | email |  auth_email',
+                'password' => 'required | min:6 | notUserPasswordCheck | notSameUserNameToPassword | confirmed ',
+                'password_confirmation'=> 'required',
+        ];
+
+
+        $messages = [
+
+        ];
+
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        // dd($validator);
+
+        if ($validator->fails()) {
+            return redirect('/user/password/edit')
+                    ->withErrors($validator)
+                    ->withInput();
+        }
+
+        return redirect('/');
 
     }
 

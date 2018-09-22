@@ -32,8 +32,7 @@ Route::post('/user/email/edit','UsersController@updateEmail');
 
 //パスワード変更
 Route::get('/user/password/edit','UsersController@editPassword');
-Route::post('/user/password/edit','UsersController@updatePassword
-');
+Route::post('/user/password/edit','UsersController@updatePassword');
 
 
 //ユーザーのメール確認

@@ -47,4 +47,31 @@ class UserCustomValidator extends Validator
         return true;
     }
 
+    // 現在のパスワードと同じパスワードが同じ場合、弾く
+    public function validateNotUserPasswordCheck($attribute, $value, $parameters)
+    {
+        $user = Auth::user();
+
+        if (Hash::check($value, $user->password)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    //ユーザー名と新しいパスワードの同値チェック
+    public function validateNotSameUserNameToPassword($attribute, $value, $parameters){
+
+        $user = Auth::user();
+
+        if ($user->name == $value) {
+            return false ;
+        }
+        return true;
+    }
+
+
+
+
+
 }

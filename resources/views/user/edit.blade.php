@@ -25,7 +25,7 @@
             <th>メール</th><td><a href="/user/email/edit">メールアドレスの変更</a></td>
         </tr>
         <tr>
-            <th>パスワード</th><td><a href="/user/email/edit">パスワードの変更</a></td>
+            <th>パスワード</th><td><a href="/user/password/edit">パスワードの変更</a></td>
         </tr>
         <tr>
             {{-- <th>プロフィール画像</th><td> <input type="file" class="form-control" name="files[][photo]" multiple></td> --}}
