@@ -17,7 +17,7 @@
             </tr>
             <tr>
                 <th>現在のメールアドレス</th>
-                <td><input type="email" name="old_email" value=""></td>
+                <td><input type="email" name="old_email" value="{{ old('old_email') }}"></td>
             </tr>
             <tr>
                 @if ($errors->has('password'))
@@ -26,7 +26,7 @@
             </tr>
             <tr>
                 <th>パスワード</th>
-                <td><input type="password" name="password" value=""></td>
+                <td><input type="password" name="password"></td>
             </tr>
             <tr>
                 @if ($errors->has('new_email'))
@@ -35,7 +35,7 @@
             </tr>
             <tr>
                 <th>新しいメールアドレス</th>
-                <td><input type="email" name="new_email" value=""></td>
+                <td><input type="email" name="new_email" value="{{ old('new_email') }}"></td>
             </tr>
 
 

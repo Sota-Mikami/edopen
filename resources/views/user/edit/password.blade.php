@@ -15,7 +15,7 @@
             </tr>
             <tr>
                 <th>メールアドレス</th>
-                <td><input type="email" name="email" value=""></td>
+                <td><input type="email" name="email" value="{{ old('email') }}"></td>
             </tr>
 
 
@@ -26,7 +26,7 @@
             </tr>
             <tr>
                 <th>現在のパスワード</th>
-                <td><input type="password" name="old_password" value=""></td>
+                <td><input type="password" name="old_password"></td>
             </tr>
 
 
@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <th>新しいパスワード</th>
-                <td><input type="password" name="password" value=""></td>
+                <td><input type="password" name="password"></td>
             </tr>
 
 
@@ -48,7 +48,7 @@
             </tr>
             <tr>
                 <th>新しいパスワード（確認用）</th>
-                <td><input type="password" name="password_confirmation" value=""></td>
+                <td><input type="password" name="password_confirmation" ></td>
             </tr>
             <tr>
                 <th></th>
