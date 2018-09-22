@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use App\Mail\EmailVerification;
 use App\Mail\UpdateEmail;
+use App\Mail\UpdatePassword;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
 
@@ -213,6 +214,9 @@ class UsersController extends Controller
 
     public function updatePassword(Request $request){
 
+        $user = User::find(Auth::user()->id);
+
+
         //パスワードにセットするバリデーションについて
         //1. 必須
         //2. 6文字未満
@@ -234,7 +238,6 @@ class UsersController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
-        // dd($validator);
 
         if ($validator->fails()) {
             return redirect('/user/password/edit')
@@ -242,8 +245,18 @@ class UsersController extends Controller
                     ->withInput();
         }
 
-        return redirect('/');
 
+        //パスワード変更メール送信
+        $mailer =  new UpdatePassword ;
+        Mail::to($user->email)->send($mailer);
+
+
+        //変更後のパスワードをDBへ反映
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+
+        return redirect('/');
     }
 
 
