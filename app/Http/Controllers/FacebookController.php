@@ -35,7 +35,7 @@ class FacebookController extends Controller
                     'avatar'=>$providerUser->avatar_original,
                     'user_id'=>$user->id,
                 ]);
-                // dd($facebook);
+
                 $user->facebook()->save($facebook);
                 $user->save();
             }

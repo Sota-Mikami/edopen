@@ -17,9 +17,16 @@ use App\Mail\UpdateEmail;
 use App\Mail\UpdatePassword;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+
+
 
 class UsersController extends Controller
 {
+    // use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+    use AuthenticatesUsers;
+
     /**
      * Display a listing of the resource.
      *
@@ -288,11 +295,41 @@ class UsersController extends Controller
         $email = $request->email;
         $password = $request->password;
 
+        $throttles = $this->hasTooManyLoginAttempts($request);
+        // dd($throttles);
+
+        if ($throttles) {
+            dd($throttles);
+            return $this->sendLockoutResponse($request);
+        }
+
         if (Auth::attempt(['email'=>$email, 'password'=>$password])) {
             return redirect('/');
         }
 
+        if ($throttles) {
+            $this->incrementLoginAttempts($request);
+        }
+
         return view('user.login', ['message'=>'ログインに失敗しました。']);
+    }
+
+    protected function hasTooManyLoginAttempts(Request $request)
+    {
+       $maxLoginAttempts = 2;
+
+       $lockoutTime = 1; // In minutes
+       // dd($this->throttleKey($request));
+       // dd($this->limiter()->tooManyAttempts(
+       //     '192.168.10.1', $maxLoginAttempts, $lockoutTime
+       // ));
+       return $this->limiter()->tooManyAttempts(
+           '192.168.10.1', $maxLoginAttempts, $lockoutTime
+       );
+
+       // return $this->limiter()->tooManyAttempts(
+       //     $this->throttleKey($request), $maxLoginAttempts, $lockoutTime
+       // );
     }
 
     public function getLogout(){
