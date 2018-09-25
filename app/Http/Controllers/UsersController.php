@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use App\Mail\EmailVerification;
 use App\Mail\UpdateEmail;
+use App\Mail\AccountLock;
 use App\Mail\UpdatePassword;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
@@ -28,9 +29,13 @@ use Illuminate\Validation\ValidationException;
 
 class UsersController extends Controller
 {
-    // use AuthenticatesAndRegistersUsers, ThrottlesLogins;
-    // use AuthenticatesUsers, ThrottlesLogins;
     use  ThrottlesLogins;
+
+    //アカウントロック時間
+    private $maxLoginAttempts = 10; //Login回数
+    private $lockoutTime = 30; // 分
+
+
 
     /**
      * Display a listing of the resource.
@@ -73,7 +78,6 @@ class UsersController extends Controller
             'password'=>Hash::make($request->password),
             'email_verify_token' => base64_encode($email),
         ]);
-        // dd($user);
 
         // 指定されたメールアドレスへユーザー確認メールを送信
         $mailer = new EmailVerification($user);
@@ -289,7 +293,6 @@ class UsersController extends Controller
     // ユーザーのログイン・ログアウト処理
 // ================================================
 
-
     public function getAuth(Request $request){
         $param = ['message'=>'ログインしてください。'];
         return view('user.login',$param);
@@ -303,8 +306,15 @@ class UsersController extends Controller
 
         $throttles = $this->hasTooManyLoginAttempts($request);
 
+        //10回以上ログインエラーにかかった場合
         if ($throttles) {
+            //アカウントロックを実行
             $this->fireLockoutEvent($request);
+
+            //ユーザーへメールを送信
+            $mailer = new AccountLock;
+            Mail::to($email)->send($mailer);
+
             return $this->sendLockoutResponse($request);
         }
 
@@ -319,9 +329,12 @@ class UsersController extends Controller
         return view('user.login', ['message'=>'ログインに失敗しました。']);
     }
 
+
+    // ================================================
+        // Illuminate\Foundation\Auth\ThrottlesLogins をオーバライド
+    // ================================================
     protected function throttleKey(Request $request)
     {
-
         $email = $request->email;
         if (!empty($request->email)) {
             $email = Str::lower($request->email);
@@ -329,15 +342,10 @@ class UsersController extends Controller
         return $email.'|'.$request->ip();
     }
 
-
     protected function hasTooManyLoginAttempts(Request $request)
     {
-       $maxLoginAttempts = 2;
-
-       $lockoutTime = 1; // In minutes
-
        return $this->limiter()->tooManyAttempts(
-           $this->throttleKey($request), $maxLoginAttempts, $lockoutTime
+           $this->throttleKey($request), $this->maxLoginAttempts
        );
     }
 
@@ -346,10 +354,27 @@ class UsersController extends Controller
         $seconds = $this->limiter()->availableIn(
             $this->throttleKey($request)
         );
+        $time = $seconds.'秒';
+
+        //単位調整
+        if ($seconds > 60) {
+            $minites =  substr(gmdate("i", $seconds), -1) ;
+            if ($seconds>=600) {
+                $minites = gmdate("i", $seconds) ;
+            }
+            $time = $minites.'分';
+        }
 
         throw ValidationException::withMessages([
-            $request->email =>[trans('認証に失敗しました。'.$seconds.'秒以上開けて再度お試しください')],
+            $request->email =>[trans('認証に失敗しました。'.$time.'以上開けて再度お試しください')],
         ])->status(429);
+    }
+
+    protected function incrementLoginAttempts(Request $request)
+    {
+        $this->limiter()->hit(
+            $this->throttleKey($request), $this->lockoutTime
+        );
     }
 
     public function getLogout(){
