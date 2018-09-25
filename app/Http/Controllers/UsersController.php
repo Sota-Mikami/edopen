@@ -19,13 +19,18 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+// ↑ trait先を参照して、メソッドを使用できないのはなぜか？
+
 
 
 
 class UsersController extends Controller
 {
     // use AuthenticatesAndRegistersUsers, ThrottlesLogins;
-    use AuthenticatesUsers;
+    // use AuthenticatesUsers, ThrottlesLogins;
+    use  ThrottlesLogins;
 
     /**
      * Display a listing of the resource.
@@ -290,16 +295,16 @@ class UsersController extends Controller
         return view('user.login',$param);
     }
 
-
+    //Login処理
     public function postAuth(Request $request){
         $email = $request->email;
         $password = $request->password;
 
+
         $throttles = $this->hasTooManyLoginAttempts($request);
-        // dd($throttles);
 
         if ($throttles) {
-            dd($throttles);
+            $this->fireLockoutEvent($request);
             return $this->sendLockoutResponse($request);
         }
 
@@ -307,29 +312,44 @@ class UsersController extends Controller
             return redirect('/');
         }
 
-        if ($throttles) {
+        if (!$throttles) {
             $this->incrementLoginAttempts($request);
         }
 
         return view('user.login', ['message'=>'ログインに失敗しました。']);
     }
 
+    protected function throttleKey(Request $request)
+    {
+
+        $email = $request->email;
+        if (!empty($request->email)) {
+            $email = Str::lower($request->email);
+        }
+        return $email.'|'.$request->ip();
+    }
+
+
     protected function hasTooManyLoginAttempts(Request $request)
     {
        $maxLoginAttempts = 2;
 
        $lockoutTime = 1; // In minutes
-       // dd($this->throttleKey($request));
-       // dd($this->limiter()->tooManyAttempts(
-       //     '192.168.10.1', $maxLoginAttempts, $lockoutTime
-       // ));
-       return $this->limiter()->tooManyAttempts(
-           '192.168.10.1', $maxLoginAttempts, $lockoutTime
-       );
 
-       // return $this->limiter()->tooManyAttempts(
-       //     $this->throttleKey($request), $maxLoginAttempts, $lockoutTime
-       // );
+       return $this->limiter()->tooManyAttempts(
+           $this->throttleKey($request), $maxLoginAttempts, $lockoutTime
+       );
+    }
+
+    protected function sendLockoutResponse(Request $request)
+    {
+        $seconds = $this->limiter()->availableIn(
+            $this->throttleKey($request)
+        );
+
+        throw ValidationException::withMessages([
+            $request->email =>[trans('認証に失敗しました。'.$seconds.'秒以上開けて再度お試しください')],
+        ])->status(429);
     }
 
     public function getLogout(){
