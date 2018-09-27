@@ -60,9 +60,12 @@ Route::get('/contents/cancel','ContentsController@cancel')->middleware('auth');
 Route::get('/content/show','ContentsController@show');
 Route::post('/content/download','ContentsController@download')->middleware('auth');
 
-//コンテンツイメージ表示パス
-Route::get('/content/content_image/{content_image}','ContentsController@downloadImage');
+Route::get('/content/edit','ContentsController@edit')->middleware('auth');
+Route::post('/content/edit','ContentsController@update')->middleware('auth');
 
+
+//コンテンツ画像削除
+Route::get('/content/content_image/delete','ContentsController@delete_contents_img')->middleware('auth');
 
 
 // ==============================

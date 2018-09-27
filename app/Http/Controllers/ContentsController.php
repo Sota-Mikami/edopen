@@ -16,6 +16,8 @@ use App\ContentImg;
 
 class ContentsController extends Controller
 {
+    // public $user
+
     /**
      *
      * Display a listing of the resource.
@@ -78,8 +80,7 @@ class ContentsController extends Controller
 
         $request->session()->put('content',$contents_info);//セッションに保存
         $content = session()->get('content');
-        // dd($content);
-        // return view('content.confirm');
+
         return view('content.confirm',['content'=>$content]);
     }
 
@@ -133,7 +134,6 @@ class ContentsController extends Controller
         if (!empty($request->teaching_material)) {
             //教材コンテンツファイル名取得
             $teaching_material_name = str_replace('teaching_materials/temp/','',$request->teaching_material);
-
         }
 
         $content = new Content;
@@ -176,10 +176,19 @@ class ContentsController extends Controller
      */
     public function show(Request $request )
     {
+        $user_id = 0;
         $content = Content::find($request->id);
         $content_imgs = Content::find($request->id)->content_imgs;
 
-        return view('content.show',['content'=>$content,'content_imgs'=>$content_imgs]);
+        if (Auth::check()) {
+            $user_id = Auth::user()->id;
+        }
+
+        return view('content.show',[
+            'login_id'=>$user_id,
+            'content'=>$content,
+            'content_imgs'=>$content_imgs,
+        ]);
     }
 
     /**
@@ -188,9 +197,15 @@ class ContentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        $content = Content::find($request->id);
+        $content_imgs = Content::find($request->id)->content_imgs;
+
+        return view('content.edit',[
+            'content'=>$content,
+            'content_imgs'=>$content_imgs,
+        ]);
     }
 
     /**
@@ -200,9 +215,71 @@ class ContentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ContentRequest $request)
     {
-        //
+        $insert_content_img = [];
+        $input_date= $request->all();
+
+        $content = Content::find($request->id);
+        $content_imgs = Content::find($request->id)->content_imgs->all();
+
+        for ($i=0; $i <=3 ; $i++) {
+            if (!empty($request->file[$i])) {
+                $input_file = $request->file()['file'][$i]->store('content_images/'.$content->id ,'public');
+                $file_name = str_replace('content_images/'.$content->id. '/' ,'' ,$input_file);
+
+                if (!empty($content_imgs[$i]->img)) {
+                    //元ファイル削除
+                    File::Delete(storage_path()."/app/public/content_images/".$content->id."/".$content_imgs[$i]->img);
+
+                    $content_imgs[$i]->img = $file_name;//ファイル名
+                    $content_imgs[$i]->order = $i+1;//sort順
+                    $content_imgs[$i]->save();
+
+                }else {
+                    //データベースに存在していなかった場合
+                    //新しくインサートする
+                    $insert_content_img[] = new ContentImg([
+                                                    'img' =>$file_name,
+                                                    'order'=>$i+1,
+                                                ]);
+                }
+            }
+        }
+        if (isset($insert_content_img)) {
+            $content->content_imgs()->saveMany($insert_content_img);
+        }
+
+        //SORTの並び替え処理（asc）
+        $order_change_imgs = Content::find($request->id)->content_imgs->all();
+        foreach ($order_change_imgs as $index => $img) {
+            $order_change_imgs[$index]->order = $index+1;
+            $order_change_imgs[$index]->save();
+        }
+
+
+
+        //教材コンテンツ処理
+        if (!empty($request->file()['teaching_material'])) {
+            //元ファイル削除
+            File::Delete(storage_path()."/app/public/teaching_materials/".$content->id."/".$content->teaching_material);
+            //新しいコンテンツをアップロード
+            $teaching_material_name = $request->file('teaching_material')->store( 'teaching_materials/'.$content->id, 'public');
+            //ファイル名を抽出
+            $teaching_material = str_replace('teaching_materials/'.$content->id. '/' ,'' ,$teaching_material_name);
+            Log::debug($teaching_material);
+        }
+
+
+
+        $content->title = $input_date['title'];
+        $content->detail = $input_date['detail'];
+        $content->price = $input_date['price'];
+        $content->teaching_material = $teaching_material;
+        $content->save();
+
+        return redirect('/content/edit?id='.$content->id);
+
     }
 
     /**
@@ -218,16 +295,20 @@ class ContentsController extends Controller
 
 
 
-    // 教材コンテンツダウンロードメソッド
-    public function download(Request $request){
-        // コンテンツのIDを取得
-        $content_id = Content::find($request->id)->id;
+    public function delete_contents_img(Request $request)
+    {
+        $content_img = ContentImg::where('img',$request->img)->first();
+        $content = Content::find($content_img->content_id);
 
-        $file_path = storage_path()."/app/public/teaching_materials/" . $content_id.'/'. $request->file_name;
 
-        return response()->download($file_path);
-        return redirect('/content/show?id='.$request->id);
+        File::Delete(storage_path()."/app/public/content_images/".$content->id."/".$content_img->img);
+        $content_img->delete();
+        $content->sortAsc();
+
+        return redirect('/content/edit?id='.$content->id);
     }
+
+
 
 
 

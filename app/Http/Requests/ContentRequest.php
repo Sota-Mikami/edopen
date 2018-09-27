@@ -35,6 +35,10 @@ class ContentRequest extends FormRequest
             $rules['file.*']  = ' mimes:jpg,png,jpeg, gif | image';
             $rules['teaching_material']  = 'required | file | mimes:pdf,doc,ppt';
         }
+        elseif($this->all()['action']==='update'){
+            $rules['file.*']  = ' mimes:jpg,png,jpeg, gif | image';
+            $rules['teaching_material']  = 'file | mimes:pdf,doc,ppt';
+        }
 
         return $rules;
     }

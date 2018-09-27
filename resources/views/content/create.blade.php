@@ -5,9 +5,6 @@
 @php
     $err = [];
     $err = $errors->all();
-    if (!empty( $errors->all())) {
-        // dd($errors);
-    }
     // 確認画面でキャンセルされた場合に初期値をセット
     $value = [
         'title' => '',

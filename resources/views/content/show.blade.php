@@ -56,6 +56,13 @@
 <br>
 <br>
 <br>
+
+@if ($content->user_id == $login_id)
+    <a href="/content/edit?id={{ $content->id }}">編集ボタン</a>
+    <br>
+    <a href="/content/delete?id={{ $content->id }}">削除ボタン</a>
+@endif
+
 <br>
 <br>
 <br>
