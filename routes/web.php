@@ -58,10 +58,10 @@ Route::post('/contents/store','ContentsController@store')->middleware('auth');
 Route::get('/contents/cancel','ContentsController@cancel')->middleware('auth');
 
 Route::get('/content/show','ContentsController@show');
-Route::post('/content/download','ContentsController@download')->middleware('auth');
 
 Route::get('/content/edit','ContentsController@edit')->middleware('auth');
 Route::post('/content/edit','ContentsController@update')->middleware('auth');
+Route::get('/content/delete','ContentsController@destroy')->middleware('auth');
 
 
 //コンテンツ画像削除

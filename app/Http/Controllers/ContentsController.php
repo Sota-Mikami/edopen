@@ -199,8 +199,14 @@ class ContentsController extends Controller
      */
     public function edit(Request $request)
     {
+        $user_id = Auth::user()->id;
         $content = Content::find($request->id);
         $content_imgs = Content::find($request->id)->content_imgs;
+
+        //コンテンツのユーザーのログインユーザー同値チェック
+        if ($user_id !== $content->user_id) {
+            return redirect('/content/show?id='.$request->id);
+        }
 
         return view('content.edit',[
             'content'=>$content,
@@ -270,8 +276,6 @@ class ContentsController extends Controller
             Log::debug($teaching_material);
         }
 
-
-
         $content->title = $input_date['title'];
         $content->detail = $input_date['detail'];
         $content->price = $input_date['price'];
@@ -288,9 +292,11 @@ class ContentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        // dd($request->id);
+        Content::find($request->id)->delete();
+        return redirect('/');
     }
 
 
