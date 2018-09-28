@@ -36,4 +36,10 @@ class User extends Authenticatable
         return $this->hasOne('App\Auth\Facebook');
     }
 
+    //【リレーション】購入済のコンテンツ
+    public function paid_content(){
+        return $this->belongsToMany('App\Content' , 'paid_user_content', 'paid_user_id', 'content_id')->withTimestamps()->withPivot('paid_user_id','content_id');
+    }
+
+
 }

@@ -24,7 +24,9 @@ class CheckoutController extends Controller
             Stripe::setApiKey('sk_test_wuabzslGwSq91ILZojTz45HK');
             $token = $request->stripeToken;
             //ログインユーザー情報を取得
-            $user_email = Auth::user()->email;//eamil取得
+            $user = User::find(Auth::user()->id);
+            // $user_email = Auth::user()->email;//eamil取得
+            $user_email = $user->email;
             $content = Content::find($request->id);//コンテンツ情報取得
 
             //(API)STRIPEに顧客情報を保存
@@ -42,12 +44,13 @@ class CheckoutController extends Controller
             ]);
 
 
-
-
             //メールでお知らせ
             $this->EmailInformPayment($content, $user_email);
 
             // $this->downloadContent($content->id, $request->file_name);
+
+            //購入履歴を更新
+            $user->paid_content()->attach($content);
 
             //指定された教材コンテンツダウンロード
             $file_path = storage_path()."/app/public/teaching_materials/" . $content->id.'/'. $request->file_name;
@@ -55,7 +58,6 @@ class CheckoutController extends Controller
 
             return redirect('/content/show?id='.$request->id);
         } catch (\Exception $ex) {
-            dd($ex);
             return $ex->getMessage();
         }
     }
@@ -65,11 +67,7 @@ class CheckoutController extends Controller
     public function downloadContent($content_id, $file_name){
         $file_path = storage_path()."/app/public/teaching_materials/" . $content_id.'/'. $file_name;
 
-        Log::debug('fucntion::::::::::::::'.$file_path);
-        Log::debug(response()->download($file_path));
         return response()->download($file_path);
-
-
     }
 
     //メールで購入情報をお知らせ

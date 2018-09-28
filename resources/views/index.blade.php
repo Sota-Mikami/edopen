@@ -49,7 +49,23 @@
 
     {{-- 教材アップロードボタン --}}
     <p><a href="contents/create">教材をアップロード</a></p>
+
+    <br>
+    <br>
+    <br>
+
+    <h3 style="margin-top:100px;">購入済みコンテンツ一覧</h3>
+    @foreach ($paid_contents as $key => $paid_content)
+        <ul>
+            <li>
+                <a href="/content/show?id={{ $paid_content->id }}">
+                    No.{{ $key +1 .' : '. $paid_content->title}}
+                </a>
+            </li>
+        </ul>
+    @endforeach
 @endif
+
 
 @if (!Auth::check())
     <p><a href="users/login">ログイン</a></p>

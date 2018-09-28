@@ -56,4 +56,17 @@ class Content extends Model
     public function content_imgs(){
         return $this->hasMany('App\ContentImg');
     }
+
+    //【リレーション】購入されたユーザー
+    public function paid_user($id=null){
+        // if (!empty($id)) {
+        //     // dd($id);
+        //     return $this->belongsToMany('App\User', 'paid_user_content', 'content_id', 'paid_user_content')->withTimestamps()->wherePivot('id', $id)->withPivot('paid_user_id','content_id');
+        // }
+
+
+        return $this->belongsToMany('App\User', 'paid_user_content', 'content_id', 'paid_user_content')->withTimestamps()->withPivot('paid_user_id','content_id');
+    }
+
+
 }
