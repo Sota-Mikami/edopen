@@ -39,20 +39,16 @@ class HomeController extends Controller
             // $user = Auth::user();
             $user = User::find(Auth::user()->id);
         }
-        // dd($user->paid_content[0]->pivot->paid_user_id);
 
-        // $paid_content = new Content;
-        // $test = $paid_content->paid_user(16);
-        // dd($test);
+        //コンテンツ一覧
+        $contents = Content::all();
 
         //購入済みコンテンツ一覧
         foreach ($user->paid_content as $value) {
             $paid_contents[] = Content::find($value->pivot->content_id);
         }
-        // Log::debug($paid_contents[0]);
 
-        //コンテンツ一覧
-        $contents = Content::all();
+
 
         return view('index',[
                             'user'=>$user,

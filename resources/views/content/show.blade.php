@@ -28,28 +28,35 @@
     </tr>
 </table>
 
-
 {{-- stripe決済 --}}
-<script src="https://js.stripe.com/v3/"></script>
-<form action="/charge" method="post" id="payment-form">
-    {{ csrf_field() }}
-    <input type="hidden" name="id" value="{{ $content->id }}">
-    <input type="hidden" name="price" value="{{ $content->price }}">
-    <input type="hidden" name="file_name" value="{{ $content->teaching_material }}">
-    <div class="form-row">
-        <label for="card-element">
-            クレジット・デビットカード番号
-        </label>
-        <div id="card-element">
-            <!-- Stripe Element がここに入ります。 -->
-        </div>
+@if (!$paidOrNot)
+    <script src="https://js.stripe.com/v3/"></script>
+    <form action="/charge" method="post" id="payment-form">
+        {{ csrf_field() }}
+        <input type="hidden" name="id" value="{{ $content->id }}">
+        <input type="hidden" name="price" value="{{ $content->price }}">
+        <input type="hidden" name="file_name" value="{{ $content->teaching_material }}">
+        <div class="form-row">
+            <label for="card-element">
+                クレジット・デビットカード番号
+            </label>
+            <div id="card-element">
+                <!-- Stripe Element がここに入ります。 -->
+            </div>
 
-        <!-- Element のエラーを入れます。 -->
-        <div id="card-errors" role="alert"></div>
-    </div>
-    <button>お支払い</button>
-</form>
-<script type="text/javascript" src="{!! asset('/js/stripe_custom.js') !!}"></script>
+            <!-- Element のエラーを入れます。 -->
+            <div id="card-errors" role="alert"></div>
+        </div>
+        <button>お支払い</button>
+    </form>
+    <script type="text/javascript" src="{!! asset('/js/stripe_custom.js') !!}"></script>
+@else
+    <br>
+    <br>
+    <br>
+    <a href="/content/download?id={{ $content->id }}">教材をダウンロード</a>
+@endif
+
 
 
 <br>

@@ -10,30 +10,12 @@ class Content extends Model
     protected $table = 'content';
     protected $primaryKey = 'id';
 
-    public function filename(){
-        $ext  = 'jpg';
-
-        switch($this->mime){
-            case 'image/jpeg':
-            case 'image/jpg':
-                $ext = 'jpg';
-                break;
-            case 'image/png' :
-                $ext = 'png';
-                break;
-            case 'image/gif' :
-                $ext = 'gif';
-                break;
-        }
-
-        return sprintf("%d.%s", md5($this->id), $ext );
-
-    }
 
     public function getID(){
         return $this->id;
     }
 
+    //コンテンツ画像のSORT処理
     public function sortAsc(){
         //SORTの並び替え処理（asc）
         $order_change_imgs = Content::find($this->id)
@@ -48,7 +30,32 @@ class Content extends Model
         }
     }
 
+    //ログインユーザーのコンテンツ購入済チェック
+    public function checkPaid($login_id){
+        $result = false;
+        $paid_user = $this->paid_user->where('id',$login_id)->first();
 
+        if (!is_null($paid_user)) {
+            $result = true;
+        }
+        return $result;
+    }
+
+    //購入済みの教材コンテンツのダウンロード
+    public function getTeachingMaterialPath(){
+        $file_path = storage_path()."/app/public/teaching_materials/" . $this->id.'/'. $this->teaching_material;
+
+        // Log::debug($this->teaching_material);
+        // dd($file_path);
+
+        return $file_path;
+    }
+
+
+
+// =================================
+//                               リレーション
+// =================================
     public function user(){
         return $this->belongsTo('App\User');
     }
@@ -58,14 +65,8 @@ class Content extends Model
     }
 
     //【リレーション】購入されたユーザー
-    public function paid_user($id=null){
-        // if (!empty($id)) {
-        //     // dd($id);
-        //     return $this->belongsToMany('App\User', 'paid_user_content', 'content_id', 'paid_user_content')->withTimestamps()->wherePivot('id', $id)->withPivot('paid_user_id','content_id');
-        // }
-
-
-        return $this->belongsToMany('App\User', 'paid_user_content', 'content_id', 'paid_user_content')->withTimestamps()->withPivot('paid_user_id','content_id');
+    public function paid_user(){
+        return $this->belongsToMany('App\User', 'paid_user_content', 'content_id', 'paid_user_id')->withTimestamps()->withPivot('paid_user_id','content_id');
     }
 
 

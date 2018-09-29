@@ -67,6 +67,8 @@ Route::get('/content/delete','ContentsController@destroy')->middleware('auth');
 //コンテンツ画像削除
 Route::get('/content/content_image/delete','ContentsController@delete_contents_img')->middleware('auth');
 
+//コンテンツダウンロード
+Route::get('/content/download','ContentsController@downloadContent');
 
 // ==============================
 //     【API】Stripe決済機能

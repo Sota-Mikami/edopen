@@ -176,18 +176,22 @@ class ContentsController extends Controller
      */
     public function show(Request $request )
     {
-        $user_id = 0;
+        $login_id = 0;
         $content = Content::find($request->id);
         $content_imgs = Content::find($request->id)->content_imgs;
 
         if (Auth::check()) {
-            $user_id = Auth::user()->id;
+            $login_id = Auth::user()->id;
         }
 
+        //購入済チェック
+        $paidOrNot =  $content->checkPaid($login_id);
+
         return view('content.show',[
-            'login_id'=>$user_id,
+            'login_id'=>$login_id,
             'content'=>$content,
             'content_imgs'=>$content_imgs,
+            'paidOrNot' => $paidOrNot,
         ]);
     }
 
@@ -294,7 +298,6 @@ class ContentsController extends Controller
      */
     public function destroy(Request $request)
     {
-        // dd($request->id);
         Content::find($request->id)->delete();
         return redirect('/');
     }
@@ -314,7 +317,19 @@ class ContentsController extends Controller
         return redirect('/content/edit?id='.$content->id);
     }
 
+    public function downloadContent(Request $request){
+        $login_id = Auth::user()->id;
+        $content = Content::find($request->id);
+        $paidOrNot =  $content->checkPaid($login_id);
 
+
+        if ($paidOrNot) {
+            $file_path = $content->getTeachingMaterialPath();
+            return response()->download($file_path);
+        }
+
+        return redirect('/content/show?id='.$content->id);
+    }
 
 
 
