@@ -31,6 +31,9 @@
     <tr>
         <th>教材コンテンツ</th><td>{{ $content['teaching_material'] }}</td>
     </tr>
+    <tr>
+        <th>カテゴリー</th><td>{{ $content['category_name'] }}</td>
+    </tr>
 </table>
 
 <form action="/contents/store" method="post">
@@ -39,6 +42,7 @@
     <input type="hidden" name="title" value="{{ $content['title'] }}">
     <input type="hidden" name="detail" value="{{ $content['detail'] }}">
     <input type="hidden" name="price" value="{{ $content['price'] }}">
+    <input type="hidden" name="category_id" value="{{ $content['category_id'] }}">
     @foreach ($content['images'] as $image)
         @if (!empty($image))
             <input type="hidden" name="images[][img]" value="{{ $image }}">

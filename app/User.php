@@ -27,7 +27,19 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+//フォローチェック
+public function followOrNot(){
 
+}
+
+
+
+
+
+
+// ============================================
+            //     リレーション
+// ============================================
     public function contents(){
         return $this->hasMany('App\Content');
     }
@@ -40,6 +52,15 @@ class User extends Authenticatable
     public function paid_content(){
         return $this->belongsToMany('App\Content' , 'paid_user_content', 'paid_user_id', 'content_id')->withTimestamps()->withPivot('paid_user_id','content_id');
     }
+
+    //【リレーション】フォロー（followed , following）
+    public function relationships(){
+        return $this->belongsToMany('App\User', 'relationships',
+        'followed_id', 'follower_id')->withTimestamps()->withPivot('followed_id','follower_id');
+    }
+
+
+
 
 
 }

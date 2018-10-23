@@ -22,7 +22,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('auth');
+
     }
 
     /**
@@ -36,7 +36,6 @@ class HomeController extends Controller
         $paid_contents = [];
         //ユーザー情報を取得
         if (Auth::check()) {
-            // $user = Auth::user();
             $user = User::find(Auth::user()->id);
         }
 
@@ -48,13 +47,8 @@ class HomeController extends Controller
             $paid_contents[] = Content::find($value->pivot->content_id);
         }
 
+        return view('index',compact('user', 'contents', 'paid_contents'));
 
-
-        return view('index',[
-                            'user'=>$user,
-                            'contents'=>$contents,
-                            'paid_contents'=>$paid_contents,
-                        ]);
     }
 
 

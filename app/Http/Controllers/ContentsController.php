@@ -12,6 +12,7 @@ use Validator;
 use App\User;
 use App\Content;
 use App\ContentImg;
+use App\Category;
 
 
 class ContentsController extends Controller
@@ -36,7 +37,9 @@ class ContentsController extends Controller
      */
     public function create()
     {
-        return view('content.create');
+        $categories = Category::all();//コンテンツカテゴリーを作成
+
+        return view('content.create',compact('categories'));
     }
 
 
@@ -52,7 +55,8 @@ class ContentsController extends Controller
 
 
     public function postConfirm(ContentRequest $request){
-
+        $category_id = 0;
+        $category_name = "";
         $files=[];//教材イメージ用の配列
         $teaching_material = '';//教材コンテンツ
 
@@ -69,6 +73,11 @@ class ContentsController extends Controller
             $teaching_material = $request->file('teaching_material')->store('teaching_materials/temp','public');
         }
 
+        if ($request['category_id'] != 0) {
+            $category = Category::find($request['category_id']);
+            $category_id = $category->id;
+            $category_name = $category->name;
+        }
 
         $contents_info = [
             'title' => $request['title'],
@@ -76,14 +85,15 @@ class ContentsController extends Controller
             'price' =>$request['price'],
             'images'=>$files,
             'teaching_material'=>$teaching_material,
+            'category_id' =>$category_id,
+            'category_name' =>$category_name,
         ];
 
         $request->session()->put('content',$contents_info);//セッションに保存
         $content = session()->get('content');
 
-        return view('content.confirm',['content'=>$content]);
+        return view('content.confirm',compact('content'));
     }
-
 
 
     public function getImage(Content $content){
@@ -157,13 +167,17 @@ class ContentsController extends Controller
                 $this->moveFile('content_images',$cotent_id, $file_name);
             }
         }
-
         $content->content_imgs()->saveMany($contentImg);
 
         //一時保存ディレクトリから本番用ディレクトリへファイル移動
         if (!empty($request->teaching_material)) {
             $this->moveFile('teaching_materials',$cotent_id, $teaching_material_name);
         }
+
+        //中間テーブル（ content_categories）へ反映
+        // id:0の場合のエラー原因
+        // 中間テーブルを介して、categoriesテーブルへ " id = 0 "のデータをセレクトしようとした場合、categoriesテーブルの " id = 0 " が存在しないため、eerrorになる。
+        $content->categories()->attach($request['category_id']);
 
         return view('content.complete');
     }
@@ -179,6 +193,8 @@ class ContentsController extends Controller
         $login_id = 0;
         $content = Content::find($request->id);
         $content_imgs = Content::find($request->id)->content_imgs;
+        //カテゴリー名取得
+        $category_name = $content->getCategoryName($request->id);
 
         if (Auth::check()) {
             $login_id = Auth::user()->id;
@@ -187,12 +203,7 @@ class ContentsController extends Controller
         //購入済チェック
         $paidOrNot =  $content->checkPaid($login_id);
 
-        return view('content.show',[
-            'login_id'=>$login_id,
-            'content'=>$content,
-            'content_imgs'=>$content_imgs,
-            'paidOrNot' => $paidOrNot,
-        ]);
+        return view('content.show', compact('login_id', 'content', 'content_imgs', 'paidOrNot','category_name'));
     }
 
     /**
@@ -287,7 +298,6 @@ class ContentsController extends Controller
         $content->save();
 
         return redirect('/content/edit?id='.$content->id);
-
     }
 
     /**
@@ -322,12 +332,10 @@ class ContentsController extends Controller
         $content = Content::find($request->id);
         $paidOrNot =  $content->checkPaid($login_id);
 
-
         if ($paidOrNot) {
             $file_path = $content->getTeachingMaterialPath();
             return response()->download($file_path);
         }
-
         return redirect('/content/show?id='.$content->id);
     }
 

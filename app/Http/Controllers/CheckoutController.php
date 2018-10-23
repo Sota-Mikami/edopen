@@ -25,7 +25,6 @@ class CheckoutController extends Controller
             $token = $request->stripeToken;
             //ログインユーザー情報を取得
             $user = User::find(Auth::user()->id);
-            // $user_email = Auth::user()->email;//eamil取得
             $user_email = $user->email;
             $content = Content::find($request->id);//コンテンツ情報取得
 
@@ -43,11 +42,8 @@ class CheckoutController extends Controller
                 'customer'=>$customer->id,
             ]);
 
-
-            //メールでお知らせ
+            //メール送信
             $this->EmailInformPayment($content, $user_email);
-
-            // $this->downloadContent($content->id, $request->file_name);
 
             //購入履歴を更新
             $user->paid_content()->attach($content);

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
+use App\Category;
 
 class Content extends Model
 {
@@ -45,11 +46,23 @@ class Content extends Model
     public function getTeachingMaterialPath(){
         $file_path = storage_path()."/app/public/teaching_materials/" . $this->id.'/'. $this->teaching_material;
 
-        // Log::debug($this->teaching_material);
-        // dd($file_path);
-
         return $file_path;
     }
+
+
+    //カテゴリー名取得
+    public function getCategoryName($id){
+        $category = Content::find($id)->categories->first();
+        if (is_null($category)) {
+            $category_name = "未設定";
+        }else {
+            $category_name = $category->name;
+        }
+
+        return $category_name;
+
+    }
+
 
 
 
@@ -64,9 +77,25 @@ class Content extends Model
         return $this->hasMany('App\ContentImg');
     }
 
-    //【リレーション】購入されたユーザー
+    //購入されたユーザー
     public function paid_user(){
         return $this->belongsToMany('App\User', 'paid_user_content', 'content_id', 'paid_user_id')->withTimestamps()->withPivot('paid_user_id','content_id');
+    }
+
+    public function categories(){
+        // dd($this->belongsToMany('App\Category',
+        // 'content_categories','content_id','category_id')
+        // ->withTimestamps()->withPivot('content_id','category_id'));
+
+        return $this->belongsToMany('App\Category',
+        'content_categories','content_id','category_id')
+        ->withTimestamps()->withPivot('content_id','category_id');
+
+        // return $this->belongsToMany('App\Category',
+        // 'content_categories','category_id','content_id')
+        // ->withTimestamps()->withPivot('category_id','category_id');
+
+
     }
 
 

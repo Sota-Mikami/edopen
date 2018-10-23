@@ -22,6 +22,7 @@ Route::post('/users/sign_up','UsersController@store');
 Route::get('/users/login','UsersController@getAuth');
 Route::post('/users/login','UsersController@postAuth');
 Route::post('/users/register/pre_check','UsersController@store')->name('register');
+
 //【SNSログイン】Facebook認証
 Route::get('/users/login/facebook', 'FacebookController@redirectToFacebook');
 Route::get('/users/login/callback','FacebookController@handleProviderCallback');
@@ -38,11 +39,18 @@ Route::post('/user/password/edit','UsersController@updatePassword');
 //ユーザーのメール確認
 Route::get('/register/verify/{token}','UsersController@showForm');
 
+//ユーザーログイン・新規登録
 Route::get('/users/logout','UsersController@getLogout')->middleware('auth');
 Route::get('/user/edit','UsersController@edit')->middleware('auth');
 Route::post('/user/edit','UsersController@update')->middleware('auth');
 
+//ユーザー一覧機能
+Route::get('/users/index', 'UsersController@showAll');
+Route::get('/users/show', 'UsersController@show');
 
+//フォロー・アンフォロー
+Route::get('/user/follow','UsersController@follow');
+Route::get('/user/unfollow','UsersController@unfollow');
 
 
 // ==============================
@@ -69,6 +77,16 @@ Route::get('/content/content_image/delete','ContentsController@delete_contents_i
 
 //コンテンツダウンロード
 Route::get('/content/download','ContentsController@downloadContent');
+
+// ==============================
+//     教育コンテンツカテゴリーのルート
+// ==============================
+
+Route::get('/categories', 'CategoriesController@index');
+Route::post('/categories/create','CategoriesController@store');
+Route::post('/categories/update','CategoriesController@update');
+Route::get('/categories/delete','CategoriesController@destroy');
+
 
 // ==============================
 //     【API】Stripe決済機能

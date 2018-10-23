@@ -20,7 +20,7 @@ class FacebookController extends Controller
             $providerUser = Socialite::driver('facebook')->user();
             $user = User::where('email',$providerUser->getEmail())->first();
 
-
+            //DBにユーザー情報が存在しない場合、新規作成
             if (is_null($user)) {
                 $user = User::create([
                     'name' => $providerUser->getName(),
@@ -28,6 +28,7 @@ class FacebookController extends Controller
                 ]);
             }
 
+            //Facebook認証が初の場合、DBのFacebookテーブルへインサート
             if (is_null($user->facebook()->first())) {
                 $facebook = new Facebook([
                     'facebook_id'=>$providerUser->getId(),
@@ -44,7 +45,6 @@ class FacebookController extends Controller
             return redirect()->to('/');
 
         } catch (\Exception $e) {
-            dd($e);
             return redirect('/');
         }
 

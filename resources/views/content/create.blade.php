@@ -120,6 +120,23 @@
                 <input type="file" id="teaching_material" name="teaching_material" multiple>
             </td>
         </tr>
+
+        @if ($errors->has('category'))
+            <tr>
+                <th>ERROR</th><td>{{ $errors->first('category') }}</td>
+            </tr>
+        @endif
+        <tr>
+            <th>カテゴリー</th>
+            <td>
+                <select name="category_id">
+                    <option value="0">カテゴリーを選択してください</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </td>
+        </tr>
         <tr>
             <th></th>
             <td>

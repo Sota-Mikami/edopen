@@ -26,6 +26,9 @@
     <tr>
         <th>教材コンテンツ</th><td>{{ $content->teaching_material }}</td>
     </tr>
+    <tr>
+        <th>カテゴリー</th><td>{{ $category_name }}</td>
+    </tr>
 </table>
 
 {{-- stripe決済 --}}

@@ -36,7 +36,6 @@ class UsersController extends Controller
     private $lockoutTime = 30; // 分
 
 
-
     /**
      * Display a listing of the resource.
      *
@@ -120,9 +119,20 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        $user = User::find($request->id);
+        // dd($user);
+        //フォローステータスを取得
+        //followOrNot
+
+        return view('user.show',compact('user'));
+    }
+
+    public function showAll(){
+        $users = User::paginate(10);
+
+        return view('user.index', compact('users'));
     }
 
     /**
@@ -248,7 +258,16 @@ class UsersController extends Controller
 
 
         $messages = [
-
+            'old_password.required'=>'現在のパスワードを入力してください',
+            'old_password.userPasswordCheck' => 'パスワードが正しくありません',
+            'email.required'=>'メールアドレスを入力してください',
+            'email.email' =>'メールアドレスが正しく入力されていません',
+            'email.auth_email' => 'メールアドレスが正しくありません',
+            'password.required'=>'新しいパスワードを入力してください',
+            'password.min' =>'6文字以上で入力してください',
+            'password.notSameUserNameToPassword'=>'現在のパスワードと異なるパスワードを入力してください',
+            'password.confirm'=>'パスワード確認と異なるパスワードが入力されています',
+            'password_confirmation.required'=>'パスワード確認を入力してください',
         ];
 
 
@@ -328,6 +347,40 @@ class UsersController extends Controller
 
         return view('user.login', ['message'=>'ログインに失敗しました。']);
     }
+
+
+
+
+    // ================================================
+        // フォロー・フォロー解除処理
+    // ================================================
+    //フォロー
+    public function follow(Request $request){
+        $user = User::find(Auth::user()->id);
+        // $following_id = $request->id;
+        $follow_user = User::find($request->id);
+        // dd($user->id); id=69
+        $user->relationships()->attach($follow_user->id);
+
+        return view('user.show',['user'=>$follow_user]);
+        // return redirect('/users/show?id'.$following_id)->with($user);
+
+    }
+    //フォロー解除
+    public function unfollow(Request $request){
+        $user = User::find(Auth::user()->id);
+        // $unfollowing_id = $request->id;
+        $unfollow_user = User::find($request->id);
+
+
+        $user->relationships()->detach($unfollow_user->id);
+
+        return view('user.show',['user'=>$unfollow_user]);
+        // return redirect('/users/show?id'.$unfollowing_id);
+
+    }
+
+
 
 
     // ================================================
