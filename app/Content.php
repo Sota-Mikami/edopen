@@ -83,19 +83,9 @@ class Content extends Model
     }
 
     public function categories(){
-        // dd($this->belongsToMany('App\Category',
-        // 'content_categories','content_id','category_id')
-        // ->withTimestamps()->withPivot('content_id','category_id'));
-
         return $this->belongsToMany('App\Category',
         'content_categories','content_id','category_id')
         ->withTimestamps()->withPivot('content_id','category_id');
-
-        // return $this->belongsToMany('App\Category',
-        // 'content_categories','category_id','content_id')
-        // ->withTimestamps()->withPivot('category_id','category_id');
-
-
     }
 
 

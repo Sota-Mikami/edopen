@@ -6,9 +6,15 @@
     <h5>Name</h5>
     <p>{{ $user->name }}</p>
 
-    <a href="/user/follow?id={{ $user->id }}">フォローする</a>
+
+    @if ($followOrNot)
+        <a href="/user/unfollow?id={{ $user->id }}">フォロー解除する</a>
+    @else
+        <a href="/user/follow?id={{ $user->id }}">フォローする</a>
+    @endif
+
     <br>
-    <a href="/user/unfollow?id={{ $user->id }}">フォロー解除する</a>
+
     <br>
     <a href="/users/index">戻る</a>
 @endsection

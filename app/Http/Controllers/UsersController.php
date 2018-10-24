@@ -122,17 +122,18 @@ class UsersController extends Controller
     public function show(Request $request)
     {
         $user = User::find($request->id);
-        // dd($user);
-        //フォローステータスを取得
-        //followOrNot
 
-        return view('user.show',compact('user'));
+        //フォローステータスを取得
+        $followOrNot = $user->checkFollow();
+        // dd($followOrNot);
+
+        return view('user.show',compact('user','followOrNot'));
     }
 
     public function showAll(){
         $users = User::paginate(10);
 
-        return view('user.index', compact('users'));
+        return view('user.index', compact('users','followOrNot'));
     }
 
     /**
@@ -357,30 +358,20 @@ class UsersController extends Controller
     //フォロー
     public function follow(Request $request){
         $user = User::find(Auth::user()->id);
-        // $following_id = $request->id;
         $follow_user = User::find($request->id);
-        // dd($user->id); id=69
         $user->relationships()->attach($follow_user->id);
 
-        return view('user.show',['user'=>$follow_user]);
-        // return redirect('/users/show?id'.$following_id)->with($user);
-
+        return back();
     }
+
     //フォロー解除
     public function unfollow(Request $request){
         $user = User::find(Auth::user()->id);
-        // $unfollowing_id = $request->id;
         $unfollow_user = User::find($request->id);
-
-
         $user->relationships()->detach($unfollow_user->id);
 
-        return view('user.show',['user'=>$unfollow_user]);
-        // return redirect('/users/show?id'.$unfollowing_id);
-
+        return back();
     }
-
-
 
 
     // ================================================

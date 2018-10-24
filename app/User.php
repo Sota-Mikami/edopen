@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -28,7 +29,16 @@ class User extends Authenticatable
     ];
 
 //フォローチェック
-public function followOrNot(){
+public function checkFollow(){
+    $result = false;
+    $user = User::find(Auth::user()->id);
+    $target_user = $user->relationships()->where('follower_id',$this->id)->first();
+    // dd($target_user);
+    if (!empty($target_user)) {
+        $result = true;
+    }
+
+    return $result;
 
 }
 
