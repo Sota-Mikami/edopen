@@ -34,9 +34,15 @@ class HomeController extends Controller
     {
         $user = new User;
         $paid_contents = [];
+        $follow_data = [
+            'following' => 0,
+            'followed' => 0,
+        ];
         //ユーザー情報を取得
         if (Auth::check()) {
             $user = User::find(Auth::user()->id);
+            $follow_data['following'] =  $user->getCoungFollowingUser();
+            $follow_data['followed'] =  $user->getCoungFollowedUser();
         }
 
         //コンテンツ一覧
@@ -47,7 +53,7 @@ class HomeController extends Controller
             $paid_contents[] = Content::find($value->pivot->content_id);
         }
 
-        return view('index',compact('user', 'contents', 'paid_contents'));
+        return view('index',compact('user', 'contents', 'paid_contents','follow_data'));
 
     }
 

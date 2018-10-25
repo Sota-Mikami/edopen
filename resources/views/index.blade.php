@@ -37,7 +37,16 @@
                 <td>{{ $user->bio }}</td>
             @endif
         </tr>
+        <tr>
+            <th>フォロー</th><td><a href="/relationship?status=following">{{ $follow_data['following'] }}</a></td>
+        </tr>
+        <tr>
+            <th>フォロワー</th><td><a href="/relationship?status=followed">{{ $follow_data['followed'] }}</a></td>
+        </tr>
     </table>
+    <br>
+    <br>
+    <br>
 
     {{-- ログアウトボタン --}}
     <p><a href="users/logout">ログアウト</a></p>

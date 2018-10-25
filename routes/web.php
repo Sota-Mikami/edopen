@@ -51,6 +51,7 @@ Route::get('/users/show', 'UsersController@show');
 //フォロー・アンフォロー
 Route::get('/user/follow','UsersController@follow');
 Route::get('/user/unfollow','UsersController@unfollow');
+Route::get('/relationship','UsersController@showRelationships');
 
 
 // ==============================

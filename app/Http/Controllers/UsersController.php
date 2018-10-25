@@ -125,7 +125,6 @@ class UsersController extends Controller
 
         //フォローステータスを取得
         $followOrNot = $user->checkFollow();
-        // dd($followOrNot);
 
         return view('user.show',compact('user','followOrNot'));
     }
@@ -360,7 +359,6 @@ class UsersController extends Controller
         $user = User::find(Auth::user()->id);
         $follow_user = User::find($request->id);
         $user->relationships()->attach($follow_user->id);
-
         return back();
     }
 
@@ -369,8 +367,15 @@ class UsersController extends Controller
         $user = User::find(Auth::user()->id);
         $unfollow_user = User::find($request->id);
         $user->relationships()->detach($unfollow_user->id);
-
         return back();
+    }
+    //リレーション一覧（フォロワー・フォロー）
+    public function showRelationships(Request $request){
+        $status = $request->status;
+        $login_user = User::find(Auth::user()->id);
+
+        $relation_info = $login_user->getRelationUser($status);
+        return view('user.relationships',compact('relation_info'));
     }
 
 

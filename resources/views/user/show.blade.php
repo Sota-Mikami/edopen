@@ -14,6 +14,9 @@
     @endif
 
     <br>
+    <br>
+    <h4>教材一覧</h4>
+
 
     <br>
     <a href="/users/index">戻る</a>
