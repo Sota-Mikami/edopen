@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Content;
 use Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
@@ -126,7 +127,11 @@ class UsersController extends Controller
         //フォローステータスを取得
         $followOrNot = $user->checkFollow();
 
-        return view('user.show',compact('user','followOrNot'));
+        //ユーザーの作成したコンテンツを取得
+        $contents = Content::where('user_id',$user->id)
+                                 ->get();
+
+        return view('user.show',compact('user','followOrNot','contents'));
     }
 
     public function showAll(){

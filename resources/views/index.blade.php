@@ -4,6 +4,14 @@
 
 
 @section('content')
+<br>
+<form class="search-box" action="/search" method="post">
+    {{ csrf_field() }}
+    <input type="text" name="keyword" value="" placeholder="コース検索" style="display:inline-block;">
+    <input type="submit"  value="検索">
+</form>
+
+<br>
 
 @if (Auth::check())
     {{-- ログインユーザー情報 --}}

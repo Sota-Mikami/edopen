@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 // use App\Http\Requests\UserRequest;
 // use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Search;
 
 
 class HomeController extends Controller
@@ -55,6 +56,12 @@ class HomeController extends Controller
 
         return view('index',compact('user', 'contents', 'paid_contents','follow_data'));
 
+    }
+
+    public function search(Request $request){
+        // dd($request->keyword);
+        $search = new Search;
+        $search->search($request->keyword);
     }
 
 

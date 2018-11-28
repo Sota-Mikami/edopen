@@ -16,6 +16,13 @@
     <br>
     <br>
     <h4>教材一覧</h4>
+    <ul>
+        @foreach ($contents as $content)
+            <li>
+                <a href="/content/show?id={{ $content->id }}">{{ $content->title }}</a>
+            </li>
+        @endforeach
+    </ul>
 
 
     <br>

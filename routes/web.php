@@ -93,3 +93,10 @@ Route::get('/categories/delete','CategoriesController@destroy');
 //     【API】Stripe決済機能
 // ==============================
 Route::post('/charge','CheckoutController@charge')->name('charge');
+
+
+// ==============================
+//     検索機能
+// ==============================
+
+Route::post('/search', 'HomeController@search');

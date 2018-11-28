@@ -83,7 +83,6 @@ class User extends Authenticatable
         return $following_users;
     }
 
-
     // フォロワーユーザー取得
     public function getFollowedUser(){
         $login_user = User::find(Auth::user()->id);
